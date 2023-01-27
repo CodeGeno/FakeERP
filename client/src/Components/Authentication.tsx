@@ -3,21 +3,25 @@ import axios from 'axios'
 import Wrapper from '../styles/AuthWrapper'
 import Alert from './Alert'
 import { useAppContext } from '../context/appContext'
+import { useNavigate } from 'react-router-dom'
 const submitReview = () => {}
 function Authentication() {
   interface credentials {
     email: string
     password: string
   }
-
+  const navigate = useNavigate()
   const initialState: credentials = { email: '', password: '' }
-  const { registerUser } = useAppContext()
+  const { registerUser, loginUser, userDetail } = useAppContext()
   const [user, setUser] = useState(initialState)
   const [isRegistering, setIsRegistering] = useState<boolean>(false)
-
   useEffect(() => {
-    console.log(user)
-  }, [user])
+    if (userDetail) {
+      setTimeout(() => {
+        navigate(`/menu`)
+      }, 3000)
+    }
+  }, [userDetail, navigate])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -30,7 +34,7 @@ function Authentication() {
         registerUser(user.email, user.password)
       }
     } else {
-      console.log('login')
+      loginUser(user.email, user.password)
     }
   }
   return (

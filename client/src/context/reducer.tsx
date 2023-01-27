@@ -30,6 +30,7 @@ import {
   ADD_ADDRESS_SUCCESS,
   ADD_ADDRESS_ERROR,
   LOGOUT_USER,
+  DISPLAY_ALERT,
 } from './actions'
 
 import { defaultContextState, initialState } from './appContext'
@@ -50,12 +51,39 @@ const reducer = (state: defaultContextState, action: actionType) => {
   if (action.type === REGISTER_USER_BEGIN) {
     return { ...state }
   }
+  if (action.type === DISPLAY_ALERT) {
+    return {
+      ...state,
+      alertMessage: action.payload.msg,
+      alertShow: false,
+      alertType: 'danger',
+    }
+  }
   if (action.type === REGISTER_USER_SUCCESS) {
     return {
       ...state,
       alertMessage: action.payload.msg as string,
       alertShow: true as boolean,
       alertType: 'success' as string,
+    }
+  }
+  if (action.type === LOGIN_USER_ERROR) {
+    return {
+      ...state,
+      alertMessage: action.payload.msg,
+      alertShow: true,
+      alertType: 'danger',
+    }
+  }
+  if (action.type === LOGIN_USER_SUCCESS) {
+    return {
+      ...state,
+      alertMessage: 'Login Sucessful!',
+      alertShow: true,
+      alertType: 'success',
+      userDetail: action.payload.userDetail,
+      token: action.payload.token,
+      role: action.payload.role,
     }
   }
   throw new Error(`No such action :${action.type}`)

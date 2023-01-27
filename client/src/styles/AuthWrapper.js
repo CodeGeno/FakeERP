@@ -16,6 +16,7 @@ const Wrapper = styled.div`
     height: 100%;
     text-align: center;
     margin: 0.5rem 0;
+    gap: 0.5rem;
     p {
       margin: 0;
       padding: 0;

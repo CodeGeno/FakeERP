@@ -1,0 +1,33 @@
+import express from 'express'
+import bodyParser from 'body-parser'
+import mysql from 'mysql2'
+import cors from 'cors'
+import dotenv from 'dotenv'
+dotenv.config()
+//middleware
+import notFoundMiddleware from './middleware/not-found.js'
+import errorHandlerMiddleware from './middleware/error-handler.js'
+
+const app = express()
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cors())
+app.use(express.json())
+
+//routers
+import authRouter from './router/authRouter.js'
+
+export const db = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  port: 3306,
+  password: process.env.DATABASE_PASSWORD,
+  database: 'FAKEDATA',
+})
+
+app.use('/api/v1/auth', authRouter)
+app.use(notFoundMiddleware)
+app.use(errorHandlerMiddleware)
+
+app.listen(3001, () => {
+  console.log('Running on port 3001')
+})

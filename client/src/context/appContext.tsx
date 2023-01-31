@@ -3,16 +3,33 @@ import axios from 'axios'
 import reducer, { actionType } from './reducer'
 import {
   CLEAR_ALERT,
-  DISPLAY_ALERT,
+  CREATE_ROLE_ERROR,
+  CREATE_ROLE_SUCCESS,
   LOGIN_USER_ERROR,
   LOGIN_USER_SUCCESS,
   REGISTER_USER_BEGIN,
   REGISTER_USER_SUCCESS,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_ERROR,
 } from './actions'
 const token = localStorage.getItem('token')
 const userDetail = localStorage.getItem('userDetail')
 const role = localStorage.getItem('role')
 
+export interface UserRole {
+  email: string
+  role: string
+  uid: number
+}
+export interface Role {
+  role: string
+  estimate: boolean
+  manageProducts: boolean
+  manageRights: boolean
+  manageClients: boolean
+  orders: boolean
+  accounting: boolean
+}
 export interface defaultContextState {
   token: string
   name: string
@@ -22,8 +39,14 @@ export interface defaultContextState {
   alertShow: boolean
   alertMessage: string
   loading: boolean
-  registerUser?: (email: string, password: string) => void | undefined
-  loginUser?: (email: string, password: string) => void | undefined
+  registerUser?: (email: string, password: string) => void
+  loginUser?: (email: string, password: string) => void
+  getRoles?: () => undefined | void | Promise<Role[]>
+  createRole?: (newRole: Role) => void
+  updateRole?: (updatedRole: Role) => void
+  deleteRole?: (roleToDelete: Role) => void
+  getUsers?: () => Promise<UserRole[]>
+  updateUser?: (userToUpdate: UserRole, roleToUpdate: string) => void
 }
 interface AppContextProps {
   children: React.ReactNode
@@ -33,9 +56,9 @@ const initialState: defaultContextState = {
   name: '',
   userDetail: userDetail ? JSON.parse(userDetail) : null,
   role: role || '',
-  alertType: '',
-  alertShow: false,
-  alertMessage: '',
+  alertType: 'success',
+  alertShow: true,
+  alertMessage: 'Hihihi',
   loading: true,
 }
 
@@ -47,7 +70,15 @@ interface actions {
 const AppProvider = ({ children }: AppContextProps) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const addUserToLocalStorage = ({ userDetail, token, role }) => {
+  const addUserToLocalStorage = ({
+    userDetail,
+    token,
+    role,
+  }: {
+    userDetail: any
+    token: string
+    role: string
+  }) => {
     localStorage.setItem('userDetail', JSON.stringify(userDetail))
     localStorage.setItem('token', token)
     localStorage.setItem('role', role)
@@ -59,9 +90,6 @@ const AppProvider = ({ children }: AppContextProps) => {
     localStorage.removeItem('role')
   }
 
-  const displayAlert = (msg) => {
-    dispatch({ type: DISPLAY_ALERT, payload: { msg } })
-  }
   const clearAlert: () => void = () => {
     setTimeout(() => {
       dispatch({ type: CLEAR_ALERT })
@@ -116,13 +144,77 @@ const AppProvider = ({ children }: AppContextProps) => {
       })
     }
   }
+  const getRoles = async () => {
+    let response = await baseFetch.get('/roles')
+    const { data } = response
+    console.log(data)
+    return data
+  }
 
+  const createRole: (newRole: Role) => void = async (newRole) => {
+    try {
+      await baseFetch.post('/roles/new', newRole)
+      dispatch({ type: CREATE_ROLE_SUCCESS })
+    } catch (error) {
+      dispatch({
+        type: CREATE_ROLE_ERROR,
+        payload: { msg: 'Error creating role' },
+      })
+    }
+    clearAlert()
+  }
+  const updateRole: (updatedRole: Role) => void = async (updatedRole) => {
+    try {
+      const response = await baseFetch.patch('/roles/update', updatedRole)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const deleteRole: (roleToDelete: Role) => void = async (roleToDelete) => {
+    console.log(roleToDelete.role)
+    try {
+      await baseFetch.delete(`/roles/delete/${roleToDelete.role}`)
+    } catch (error) {}
+  }
+  const getUsers: () => Promise<UserRole[]> = async () => {
+    try {
+      const response = await baseFetch.get('/user')
+      const { data } = response
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const updateUser: (
+    userToUpdate: UserRole,
+    roleToUpdate: string
+  ) => void = async (userToUpdate, roleToUpdate) => {
+    try {
+      const response = await baseFetch.patch('/user/updateUserRole', {
+        userToUpdate,
+        roleToUpdate,
+      })
+      dispatch({ type: UPDATE_USER_BEGIN })
+    } catch (error) {
+      dispatch({
+        type: UPDATE_USER_ERROR,
+        payload: { msg: 'Error updating role' },
+      })
+    }
+    clearAlert()
+  }
   return (
     <AppContext.Provider
       value={{
         ...state,
         registerUser,
         loginUser,
+        getRoles,
+        createRole,
+        updateRole,
+        deleteRole,
+        getUsers,
+        updateUser,
       }}
     >
       {children}

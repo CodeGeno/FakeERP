@@ -2,10 +2,12 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
-  height: 100vh;
+  height: 100%;
   .menu-list {
+    display: flex;
     width: 10rem;
-    height: 100%;
+    min-height: fit-content;
+
     flex-direction: row;
     background-color: white;
     box-shadow: var(--shadow-1);

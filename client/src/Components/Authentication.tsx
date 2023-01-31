@@ -13,7 +13,7 @@ function Authentication() {
   const navigate = useNavigate()
   const initialState: credentials = { email: '', password: '' }
   const { registerUser, loginUser, userDetail } = useAppContext()
-  const [user, setUser] = useState(initialState)
+  const [user, setUser] = useState<credentials>(initialState)
   const [isRegistering, setIsRegistering] = useState<boolean>(false)
   useEffect(() => {
     if (userDetail) {
@@ -34,7 +34,9 @@ function Authentication() {
         registerUser(user.email, user.password)
       }
     } else {
-      loginUser(user.email, user.password)
+      if (user) {
+        loginUser(user.email, user.password)
+      }
     }
   }
   return (

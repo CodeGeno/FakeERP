@@ -8,6 +8,7 @@ dotenv.config()
 //middleware
 import notFoundMiddleware from './middleware/not-found.js'
 import errorHandlerMiddleware from './middleware/error-handler.js'
+import authenticateUser from './middleware/auth.js'
 
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -16,7 +17,8 @@ app.use(express.json())
 
 //routers
 import authRouter from './router/authRouter.js'
-
+import rolesRouter from './router/rolesRouter.js'
+import userRouter from './router/userRouter.js'
 export const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
@@ -26,6 +28,9 @@ export const db = mysql.createPool({
 })
 
 app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/roles', rolesRouter)
+app.use('/api/v1/user', userRouter)
+
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 

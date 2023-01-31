@@ -1,14 +1,20 @@
 import { Outlet } from 'react-router-dom'
 import Wrapper from './ManageWrapper'
-
-function ManageRights() {
+import { NavLink } from 'react-router-dom'
+const ManageRights: React.FC = () => {
   return (
     <Wrapper>
       <div className='section-container'>
-        <h1>Manage Rights</h1>
         <div className='actions-section'>
-          <button className='btn'>Create Role</button>
-          <button className='btn'>Manage Roles</button>
+          <NavLink to='/menu' className='btn'>
+            Create Role
+          </NavLink>
+          <NavLink to='/menu/updateRoles' className='btn'>
+            Manage Roles
+          </NavLink>
+          <NavLink to='/menu/assignRole' className='btn'>
+            Assign Role
+          </NavLink>
         </div>
         <Outlet />
       </div>

@@ -3,7 +3,6 @@ import { QueryResult } from '../utils/DbQuery.js'
 const getUsers = async (req, res) => {
   const query = 'SELECT email,role,uid from Users'
   const response = await QueryResult(query)
-  console.log(response)
   res.status(StatusCodes.OK).json(response)
 }
 

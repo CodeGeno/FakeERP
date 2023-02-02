@@ -2,12 +2,11 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
-  height: 100%;
+  min-height: 100vh;
   .menu-list {
     display: flex;
     width: 10rem;
     min-height: fit-content;
-
     flex-direction: row;
     background-color: white;
     box-shadow: var(--shadow-1);
@@ -23,6 +22,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     border-top-width: 2px;
     border-top-style: lightgrey;
+    width: 100%;
   }
   .list-btn {
     cursor: pointer;
@@ -37,6 +37,7 @@ const Wrapper = styled.div`
     justify-content: center;
     border-bottom-width: 2px;
     border-bottom-style: lightgrey;
+    width: 100%;
   }
 `
 

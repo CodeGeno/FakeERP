@@ -9,6 +9,7 @@ function Menu() {
           <li className='list-btn'>Factures</li>
           <li className='list-btn'>Devis</li>
           <li className='list-btn'>Commandes</li>
+          <li className='list-btn'>Clients</li>
         </ul>
       </div>
       <Outlet />

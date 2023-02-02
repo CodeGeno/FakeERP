@@ -8,7 +8,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 10px 0;
     box-shadow: ${(props) => (props.show ? 'var(--shadow-4);' : '')};
     border-bottom-left-radius: var(--borderRadius);

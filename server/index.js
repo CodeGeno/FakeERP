@@ -19,6 +19,8 @@ app.use(express.json())
 import authRouter from './router/authRouter.js'
 import rolesRouter from './router/rolesRouter.js'
 import userRouter from './router/userRouter.js'
+import companyRouter from './router/companyRouter.js'
+
 export const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
@@ -30,6 +32,7 @@ export const db = mysql.createPool({
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/roles', rolesRouter)
 app.use('/api/v1/user', userRouter)
+app.use('/api/v1/company', companyRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)

@@ -6,13 +6,13 @@ const ManageRights: React.FC = () => {
     <Wrapper>
       <div className='section-container'>
         <div className='actions-section'>
-          <NavLink to='/menu' className='btn'>
+          <NavLink to='/menu/manageRights' className='btn'>
             Create Role
           </NavLink>
-          <NavLink to='/menu/updateRoles' className='btn'>
+          <NavLink to='/menu/manageRights/updateRoles' className='btn'>
             Manage Roles
           </NavLink>
-          <NavLink to='/menu/assignRole' className='btn'>
+          <NavLink to='/menu/manageRights/assignRole' className='btn'>
             Assign Role
           </NavLink>
         </div>

@@ -55,6 +55,8 @@ const deleteRole = async (req, res) => {
   try {
     const query = `DELETE FROM Roles where role='${role}'`
     const result = await QueryResult(query)
+    const resetQuery = `UPDATE Users SET role='user' WHERE role='${role}'`
+    await QueryResult(resetQuery)
     res.status(StatusCodes.OK).json(result)
   } catch (error) {
     throw new BadRequestError(`Couldn't delete the selected role`)

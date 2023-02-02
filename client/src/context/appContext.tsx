@@ -47,6 +47,7 @@ export interface defaultContextState {
   deleteRole?: (roleToDelete: Role) => void
   getUsers?: () => Promise<UserRole[]>
   updateUser?: (userToUpdate: UserRole, roleToUpdate: string) => void
+  createCompany?: (companyDetails: any, companyName: string) => void
 }
 interface AppContextProps {
   children: React.ReactNode
@@ -56,9 +57,9 @@ const initialState: defaultContextState = {
   name: '',
   userDetail: userDetail ? JSON.parse(userDetail) : null,
   role: role || '',
-  alertType: 'success',
-  alertShow: true,
-  alertMessage: 'Hihihi',
+  alertType: '',
+  alertShow: false,
+  alertMessage: '',
   loading: true,
 }
 
@@ -203,6 +204,12 @@ const AppProvider = ({ children }: AppContextProps) => {
     }
     clearAlert()
   }
+  const createCompany = async (companyDetails, companyName) => {
+    let response = await baseFetch.post('/company/create', {
+      companyDetails,
+      companyName,
+    })
+  }
   return (
     <AppContext.Provider
       value={{
@@ -215,6 +222,7 @@ const AppProvider = ({ children }: AppContextProps) => {
         deleteRole,
         getUsers,
         updateUser,
+        createCompany,
       }}
     >
       {children}

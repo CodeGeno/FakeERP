@@ -4,6 +4,7 @@ const Wrapper = styled.div`
   display: flex;
   min-height: 100vh;
   .menu-list {
+    transition: var(--transition-mid);
     display: flex;
     width: 10rem;
     min-height: fit-content;
@@ -13,6 +14,7 @@ const Wrapper = styled.div`
     border-right-width: 2px;
     border-right-style: solid;
     border-right-color: lightgrey;
+    overflow: hidden;
   }
   ul {
     margin: 0;
@@ -31,13 +33,17 @@ const Wrapper = styled.div`
     letter-spacing: var(--letterSpacing);
     padding: 0.375rem 0.75rem;
     box-shadow: var(--shadow-2);
-    transition: var(--transition);
     text-transform: capitalize;
     display: flex;
     justify-content: center;
     border-bottom-width: 2px;
     border-bottom-style: lightgrey;
     width: 100%;
+  }
+  .hide {
+    width: 0px;
+    overflow: hidden;
+    transition: var(--transition-mid);
   }
 `
 

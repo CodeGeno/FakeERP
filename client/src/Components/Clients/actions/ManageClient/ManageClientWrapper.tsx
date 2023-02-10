@@ -1,6 +1,18 @@
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
+  .edit-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0 0 0;
+    .btn {
+      font-size: 2rem;
+    }
+  }
+  h4 {
+    margin: 0;
+  }
+
   h3 {
     margin: 2rem 0 0.5rem 0;
   }
@@ -63,5 +75,3 @@ const Wrapper = styled.div`
     padding: 0 1rem 0 0;
   }
 `
-
-export default Wrapper

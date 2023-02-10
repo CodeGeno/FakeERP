@@ -8,6 +8,7 @@ import Menu from './pages/menu/Menu'
 import AssignRole from './Components/ManageRights/actions/assignRole/AssignRole'
 import Clients from './Components/Clients/Clients'
 import CreateClient from './Components/Clients/actions/CreateClient/CreateClient'
+import ManageClient from './Components/Clients/actions/ManageClient/ManageClient'
 const App: React.FC = () => {
   return (
     <BrowserRouter>
@@ -23,6 +24,7 @@ const App: React.FC = () => {
           </Route>
           <Route path='/menu/clients' element={<Clients />}>
             <Route index element={<CreateClient />} />
+            <Route path='manage' element={<ManageClient />} />
           </Route>
           <Route path='all-jobs' element={<ManageRights />} />
         </Route>

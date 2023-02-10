@@ -9,7 +9,7 @@ const Clients: React.FC = () => {
           <NavLink to='/menu/clients' className='btn'>
             New client
           </NavLink>
-          <NavLink to='/menu/clients' className='btn'>
+          <NavLink to='/menu/clients/manage' className='btn'>
             Manage Client
           </NavLink>
         </div>

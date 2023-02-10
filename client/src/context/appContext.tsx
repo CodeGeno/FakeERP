@@ -9,6 +9,8 @@ import {
   LOGIN_USER_SUCCESS,
   REGISTER_USER_BEGIN,
   REGISTER_USER_SUCCESS,
+  SET_SLIDER,
+  UPDATE_OFFICES_SUCCESS,
   UPDATE_USER_BEGIN,
   UPDATE_USER_ERROR,
 } from './actions'
@@ -31,6 +33,7 @@ export interface Role {
   accounting: boolean
 }
 export interface defaultContextState {
+  showSlider: boolean
   token: string
   name: string
   userDetail: any
@@ -48,11 +51,16 @@ export interface defaultContextState {
   getUsers?: () => Promise<UserRole[]>
   updateUser?: (userToUpdate: UserRole, roleToUpdate: string) => void
   createCompany?: (companyDetails: any, companyName: string) => void
+  getCompanies?: () => any
+  getCompanyOffices?: (companyName: string) => any
+  updateOffices?: (Offices: any) => any
+  handleSlider?: () => any
 }
 interface AppContextProps {
   children: React.ReactNode
 }
 const initialState: defaultContextState = {
+  showSlider: true,
   token: token || '',
   name: '',
   userDetail: userDetail ? JSON.parse(userDetail) : null,
@@ -71,6 +79,9 @@ interface actions {
 const AppProvider = ({ children }: AppContextProps) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
+  const handleSlider = () => {
+    dispatch({ type: SET_SLIDER })
+  }
   const addUserToLocalStorage = ({
     userDetail,
     token,
@@ -210,6 +221,26 @@ const AppProvider = ({ children }: AppContextProps) => {
       companyName,
     })
   }
+  const getCompanies = async () => {
+    let response = await baseFetch.get('/company/getCompanyNames')
+    const { data } = response
+    return data
+  }
+  const getCompanyOffices = async (companyName: any) => {
+    console.log(companyName)
+    let response = await baseFetch.get(`/company/getOffices/${companyName}`)
+    const { data } = response
+    return data
+  }
+  const updateOffices = async (Offices) => {
+    try {
+      await baseFetch.patch('/company/updateOffices', Offices)
+      dispatch({ type: UPDATE_OFFICES_SUCCESS })
+    } catch (error) {
+      console.log(error)
+    }
+    clearAlert()
+  }
   return (
     <AppContext.Provider
       value={{
@@ -223,6 +254,10 @@ const AppProvider = ({ children }: AppContextProps) => {
         getUsers,
         updateUser,
         createCompany,
+        getCompanies,
+        getCompanyOffices,
+        updateOffices,
+        handleSlider,
       }}
     >
       {children}

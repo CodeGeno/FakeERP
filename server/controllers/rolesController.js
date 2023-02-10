@@ -4,6 +4,7 @@ import { BadRequestError } from '../errors/index.js'
 const getRoles = async (req, res) => {
   const query = `SELECT * FROM Roles`
   const result = await QueryResult(query)
+  console.log(result)
   res.status(StatusCodes.OK).json(result)
 }
 const newRole = async (req, res) => {

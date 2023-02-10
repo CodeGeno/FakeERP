@@ -13,6 +13,8 @@ import {
   CREATE_ROLE_SUCCESS,
   CREATE_ROLE_ERROR,
   UPDATE_USER_ERROR,
+  SET_SLIDER,
+  UPDATE_OFFICES_SUCCESS,
 } from './actions'
 
 import { defaultContextState, initialState } from './appContext'
@@ -25,10 +27,14 @@ export interface actionType {
     userDetail?: []
     token?: string
     role?: string
+    showSlider?: boolean
   }
 }
 
 const reducer = (state: defaultContextState, action: actionType) => {
+  if (action.type === SET_SLIDER) {
+    return { ...state, showSlider: !state.showSlider }
+  }
   if (action.type === CLEAR_ALERT) {
     return {
       ...state,
@@ -98,6 +104,14 @@ const reducer = (state: defaultContextState, action: actionType) => {
       alertMessage: action.payload.msg,
       alertShow: true,
       alertType: 'danger',
+    }
+  }
+  if (action.type === UPDATE_OFFICES_SUCCESS) {
+    return {
+      ...state,
+      alertMessage: 'Company Updated !',
+      alertShow: true,
+      alertType: 'success',
     }
   }
   throw new Error(`No such action :${action.type}`)

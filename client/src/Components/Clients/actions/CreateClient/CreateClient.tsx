@@ -10,6 +10,7 @@ const CreateClient: React.FC = () => {
     streetName: '',
     houseNr: '',
     zipCode: '',
+    city: '',
     country: '',
   }
   const addOffice = {
@@ -17,6 +18,7 @@ const CreateClient: React.FC = () => {
     streetName: '',
     houseNr: '',
     zipCode: '',
+    city: '',
     country: '',
   }
   const [officeName, setOfficeName] = useState('')
@@ -38,22 +40,27 @@ const CreateClient: React.FC = () => {
   return (
     <Wrapper>
       <h3>CreateClient</h3>
-      <div>
-        <label className='form-label' htmlFor='Office Name'>
-          Company Name
-        </label>
+      <div className='company-name'>
+        <div className='company'>
+          <label className='form-label' htmlFor='Office Name'>
+            Company Name
+          </label>
 
-        <input
-          className='form-input'
-          value={officeName}
-          onChange={(e) => {
-            setOfficeName(e.target.value)
-          }}
-        />
+          <input
+            className='form-input'
+            value={officeName}
+            onChange={(e) => {
+              setOfficeName(e.target.value)
+            }}
+          />
+        </div>
       </div>
       <div>
         {additionalOffice.length > 0 &&
           additionalOffice.map((office, index) => {
+            const { officeName } = office
+            console.log(officeName)
+
             return (
               <AdditionalOffice
                 index={index}
@@ -64,7 +71,7 @@ const CreateClient: React.FC = () => {
               />
             )
           })}
-        <div className='add-btn-section'>
+        <div className='btn-section'>
           <button
             className='btn'
             onClick={() => {

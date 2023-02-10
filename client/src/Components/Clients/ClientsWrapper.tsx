@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
-  background-color: beige;
+
   width: 100%;
   justify-content: center;
   margin: 1rem 0;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
     width: 95%;
     background-color: var(--white);
     border-radius: var(--borderRadius);
-    padding: 2rem 1rem;
+    padding: 2rem 2rem;
   }
   .actions-section {
     display: flex;

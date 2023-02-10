@@ -73,6 +73,20 @@ const AdditionalOffice: React.FC<{
           </div>
         </div>
         <div className='zip-row'>
+          <div className='city'>
+            <label className='form-label' htmlFor='City'>
+              City
+            </label>
+            <input
+              className='form-input'
+              name='city'
+              value={office.city}
+              onChange={(e) => {
+                handleAdditionalOffice(e, index)
+              }}
+              type='text'
+            />
+          </div>
           <div className='zip'>
             <label className='form-label' htmlFor='Zip Code'>
               Zip Code
@@ -88,6 +102,8 @@ const AdditionalOffice: React.FC<{
               type='number'
             />
           </div>
+        </div>
+        <div className='country-row'>
           <div className='country'>
             <label className='form-label' htmlFor='Country'>
               Country

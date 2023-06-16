@@ -43,7 +43,7 @@ const createEmployee = async (req, res) => {
   let sanitizedData = sanitizeObject(req.body)
 
   sanitizedData.birthDate = formatDate(sanitizedData.birthDate)
-  const query = `INSERT INTO Employees (lastName, firstName, street, zipCode, country, birthDate, role, salary)
+  const query = `INSERT INTO EMPLOYEES (lastName, firstName, street, zipCode, country, birthDate, role, salary)
              VALUES ('${sanitizedData.lastName}', '${sanitizedData.firstName}', '${sanitizedData.street}', ${sanitizedData.zipCode},'${sanitizedData.country}', '${sanitizedData.birthDate}', '${sanitizedData.role}', ${sanitizedData.salary})`
   try {
     await QueryResult(query)
@@ -58,7 +58,7 @@ const updateEmployee = async (req, res) => {
   console.log(employee)
   employee = sanitizeObject(employee)
   employee.birthDate = formatDate(employee.birthDate)
-  const query = `Update Employees
+  const query = `Update EMPLOYEES
               SET lastName='${employee.lastName}',firstName='${employee.firstName}'
               ,birthDate='${employee.birthDate}',street='${employee.street}',zipCode=${employee.zipCode}
               ,role='${employee.role}' where id=${employee.id}`

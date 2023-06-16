@@ -14,7 +14,7 @@ import jwt from 'jsonwebtoken'
 
 const login = async (req, res) => {
   const { email, password } = req.body
-  const sqlQuery = `SELECT email,password,role,uid FROM Users WHERE email='${email}';`
+  const sqlQuery = `SELECT email,password,role,uid FROM USERS WHERE email='${email}';`
 
   let data = await QueryResult(sqlQuery)
 
@@ -46,7 +46,7 @@ const register = async (req, res) => {
   let salt = await bcrypt.genSalt(10)
   let cryptedPwd = await bcrypt.hash(password, salt)
   console.log(cryptedPwd)
-  const sqlInsert = 'INSERT INTO Users(email,password) VALUES (?,?)'
+  const sqlInsert = 'INSERT INTO USERS(email,password) VALUES (?,?)'
   db.query(sqlInsert, [email, cryptedPwd], (err, result) => {
     console.log('result', result)
     console.log(err)

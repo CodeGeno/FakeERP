@@ -37,7 +37,7 @@ const productImages = async (req, res) => {
 const addProduct = async (req, res) => {
   const { productName, productDescription, productPrice } = req.body
   console.log(productName, productDescription, productPrice)
-  const query = `INSERT INTO Product(name,description,price,path) VALUES('${productName}','${productDescription}',${Number(
+  const query = `INSERT INTO PRODUCT(name,description,price,path) VALUES('${productName}','${productDescription}',${Number(
     productPrice
   )},'/images/${productName}/')`
   const result = await QueryResult(query)
@@ -46,7 +46,7 @@ const addProduct = async (req, res) => {
 }
 
 const allProducts = async (req, res) => {
-  const query = `SELECT * FROM Product`
+  const query = `SELECT * FROM PRODUCT`
   let products = await QueryResult(query)
 
   let promises = products.map((product) => {
@@ -89,7 +89,7 @@ const allProducts = async (req, res) => {
 const getSingleProduct = async (req, res) => {
   const productId = req.params.id // Assuming the product ID is obtained from the request params
 
-  const query = `SELECT * FROM Product WHERE id =${productId}`
+  const query = `SELECT * FROM PRODUCT WHERE id =${productId}`
   let product = await QueryResult(query)
 
   const { path } = product[0]

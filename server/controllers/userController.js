@@ -10,7 +10,7 @@ const updateUserRole = async (req, res) => {
   const { userToUpdate: user, roleToUpdate: role } = req.body
   const { email, uid } = user
   const query = `
-UPDATE Users
+UPDATE USERS
 SET role='${role}'
 WHERE email='${email}' AND uid=${uid}
 `

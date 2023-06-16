@@ -32,7 +32,7 @@ const formatDate = () => {
 }
 
 const getInventory = async (req, res) => {
-  const query = 'SELECT id,name,quantity,lastOrder from Product'
+  const query = 'SELECT id,name,quantity,lastOrder from PRODUCT'
   let inventory = await QueryResult(query)
   inventory = inventory.map((item) => {
     item.quantity = 0
@@ -46,7 +46,7 @@ const updateInventory = async (req, res) => {
   for (const product of products) {
     let temp = sanitizeObject(product)
     const { quantity, id } = temp
-    const query = `Update Product
+    const query = `Update PRODUCT
     set quantity=quantity+${quantity},lastOrder='${formatDate()}'
     where id=${id}`
     await QueryResult(query)

@@ -8,28 +8,27 @@ const createOrder = async (req, res) => {
   const userData = data.userDetail
   const orderData = data.orderData
   const { company, products, deliveryDate } = orderData
-  query = `INSERT INTO OrdersInfo(orderDate,deliveryDate,orderStatus,companyId,createdBy)
+  query = `INSERT INTO ORDERSINFO(orderDate,deliveryDate,orderStatus,companyId,createdBy)
                  VALUES ('${currentDate()}','${deliveryDate}','pending',${
     company.id
   },'${userData.replace(/^"|"$/g, '')}');`
   result = await QueryResult(query)
   console.log('result1', result)
-  query = `Select orderID from OrdersInfo WHERE companyId=${
+  query = `Select orderID from ORDERSINFO WHERE companyId=${
     company.id
   } and createdBy='${userData.replace(
     /^"|"$/g,
     ''
   )}' Order By orderId desc LIMIT 1;`
-  console.log(query)
+
   result = await QueryResult(query)
-  console.log('result2', result)
 
   const orderID = result[0].orderID
 
   for (const product of products) {
     const { id, desiredQuantity, price } = product
     if (desiredQuantity > 0) {
-      query = `INSERT INTO OrdersCart(orderId,productId,orderQuantity,price)
+      query = `INSERT INTO ORDERSCART(orderId,productId,orderQuantity,price)
             Values(${orderID},${id},${desiredQuantity},${price});`
       await QueryResult(query)
     }
@@ -40,7 +39,7 @@ const createOrder = async (req, res) => {
 
 const getOrdersData = async (req, res) => {
   let finalData = []
-  let query = `select * from OrdersInfo`
+  let query = `select * from ORDERSINFO`
   let results = await QueryResult(query)
   for (const i in results) {
     let products = []
@@ -60,7 +59,7 @@ const getOrderData = async (req, res) => {
   console.log('hihi')
   console.log(id)
   let finalData = []
-  let query = `select * from OrdersInfo where orderId=${id}`
+  let query = `select * from ORDERSINFO where orderId=${id}`
   let results = await QueryResult(query)
   for (const i in results) {
     let products = []
@@ -76,7 +75,7 @@ const getOrderData = async (req, res) => {
   res.status(200).json(finalData)
 }
 const getOrderProductsId = async (result) => {
-  let query = `SELECT * FROM OrdersCart where orderId=${result.orderId}`
+  let query = `SELECT * FROM ORDERSCART where orderId=${result.orderId}`
   let singleProduct = await QueryResult(query)
   return singleProduct
 }
@@ -87,7 +86,7 @@ const getOrderProducts = async (productCartInfo) => {
   return productData
 }
 const getCompanyDetail = async (companyId) => {
-  let query = `SELECT * FROM Company where id=${companyId}`
+  let query = `SELECT * FROM COMPANY where id=${companyId}`
   let companyDetail = await QueryResult(query)
   return companyDetail[0]
 }
@@ -123,7 +122,7 @@ const updateOrder = async (req, res) => {
     orderStatus == 'done' &&
     (newStatus == 'pending' || newStatus == 'cancelled')
   ) {
-    query = `UPDATE OrdersInfo
+    query = `UPDATE ORDERSINFO
              SET orderStatus='${newStatus}'
              Where orderId=${orderId};`
 
@@ -141,7 +140,7 @@ const updateOrder = async (req, res) => {
     (orderStatus == 'pending' && newStatus == 'cancelled') ||
     (orderStatus == 'cancelled' && newStatus == 'pending')
   ) {
-    query = `UPDATE OrdersInfo
+    query = `UPDATE ORDERSINFO
              SET orderStatus='${newStatus}'
              Where orderId=${orderId};`
     await QueryResult(query)

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import Wrapper from '../styles/AuthWrapper'
 import Alert from './Alert'
 import { useAppContext } from '../context/appContext'
 import { useNavigate } from 'react-router-dom'
-const submitReview = () => {}
+
 function Authentication() {
   interface credentials {
     email: string
@@ -30,14 +29,21 @@ function Authentication() {
   const handleSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void = (e) => {
     e.preventDefault()
     if (isRegistering) {
-      if (registerUser) {
+      if (registerUser && ValidateEmail(user.email)) {
         registerUser(user.email, user.password)
       }
     } else {
-      if (user) {
+      if (user && ValidateEmail(user.email)) {
         loginUser(user.email, user.password)
       }
     }
+  }
+  function ValidateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+      return true
+    }
+
+    return false
   }
   return (
     <Wrapper>
@@ -49,7 +55,7 @@ function Authentication() {
             Email
           </label>
           <input
-            type='text'
+            type='email'
             name='email'
             className='form-input'
             value={user.email}
@@ -72,14 +78,14 @@ function Authentication() {
             </button>
             <div className='register-section'>
               <p className='register-text'>No account yet?</p>
-              <div
+              <button
                 className='register-btn'
                 onClick={() => {
                   setIsRegistering(!isRegistering)
                 }}
               >
                 {isRegistering ? 'Cancel' : 'Register'}
-              </div>
+              </button>
             </div>
           </div>
         </form>

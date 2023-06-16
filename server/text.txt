@@ -1,0 +1,17 @@
+CREATE TABLE OrdersInfo(
+    orderId int not null primary key auto_increment,
+    orderDate date,
+    deliveryDate date,
+    orderStatus varchar(30),
+    companyId int,
+   FOREIGN KEY (companyId) REFERENCES  Company(id),
+    createdBy varchar(50)
+);
+CREATE TABLE OrdersCart(
+    orderId int,
+    productId int,
+    FOREIGN KEY (orderId) REFERENCES OrdersInfo(orderId),
+    FOREIGN KEY (productId) references  Product(id),
+    quantity int,
+    price float
+);

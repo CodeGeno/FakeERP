@@ -2,18 +2,16 @@ import { StatusCodes } from 'http-status-codes'
 import { QueryResult } from '../utils/DbQuery.js'
 
 const createCompany = async (req, res) => {
-  const { companyDetails, companyName } = req.body
-  companyDetails.map(async (singleOffice, index) => {
-    const { streetName, houseNr, zipCode, country, officeName, city } =
-      singleOffice
-    const query = `INSERT INTO Company(id,company,street,houseNr,zipCode,country,officeName,city) Values(${
-      index + 1
-    },'${companyName}','${streetName}',${houseNr},${zipCode},'Belgium','${officeName}','${city}')`
+  const companyDetails = req.body
+  companyDetails.map(async (singleCompany, index) => {
+    const { street, houseNr, zipCode, country, city, company } = singleCompany
+    console.log(singleCompany)
+    const query = `INSERT INTO Company(company,street,houseNr,zipCode,country,city) Values('${company}','${street}',${houseNr},${zipCode},'${country}','${city}')`
     await QueryResult(query)
   })
 }
-const getAllCompaniesNames = async (req, res) => {
-  const query = `SELECT DISTINCT(company) FROM Company`
+const getAllCompanies = async (req, res) => {
+  const query = `SELECT company,id FROM Company`
   const result = await QueryResult(query)
   res.status(StatusCodes.OK).json(result)
 }
@@ -26,21 +24,26 @@ const getOffices = async (req, res) => {
   res.status(StatusCodes.OK).json(result)
 }
 const updateOffices = async (req, res) => {
-  const companies = req.body
-  const deleteQuery = `DELETE FROM Company WHERE company='${req.body[0].company}';`
-  await QueryResult(deleteQuery)
-
-  companies.map(async (singleCompany, index) => {
-    const { street, houseNr, zipCode, country, officeName, city, company } =
-      singleCompany
-    let query = `INSERT INTO Company(id,company,street,houseNr,zipCode,country,officeName,city) Values(${
-      index + 1
-    },'${company}','${street}',${houseNr},${zipCode},'Belgium','${officeName}','${city}');`
+  const companyData = req.body
+  try {
+    const { street, houseNr, zipCode, country, city, company, id } = companyData
+    let query = `Update Company SET company='${company}',street='${street}',houseNr=${houseNr},zipCode=${zipCode},country='${country}',city='${city}' where id=${id};`
     await QueryResult(query)
-  })
 
-  // const result = await QueryResult(query)
-  // console.log(result)
-  res.send('hi')
+    res.status(200).json({ msg: 'Update successful!' })
+  } catch (error) {
+    throw new Error('Error')
+  }
 }
-export { createCompany, getAllCompaniesNames, getOffices, updateOffices }
+const getSingleCompany = async (req, res) => {
+  const query = `SELECT * FROM COMPANY WHERE id=${req.params.id}`
+  let data = await QueryResult(query)
+  res.status(200).json(data)
+}
+export {
+  createCompany,
+  getAllCompanies,
+  getOffices,
+  updateOffices,
+  getSingleCompany,
+}

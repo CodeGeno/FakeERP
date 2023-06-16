@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Role, useAppContext, UserRole } from '../../../../context/appContext'
+import { useAppContext } from '../../../../context/appContext'
+import { Role, UserRole } from '../../../../Models/ContextModel'
 import Alert from '../../../Alert'
 import Wrapper from './SingleUserRoleWrapper'
 
@@ -12,9 +13,7 @@ const SingleUserRole: React.FC<{
   const [show, setShow] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<boolean>(false)
   const [selectedRole, setSelectedRole] = useState<string>()
-  useEffect(() => {
-    console.log(selectedRole)
-  }, [selectedRole])
+
   const handleUpdate = async () => {
     if (selectedRole !== undefined) {
       try {
@@ -51,14 +50,15 @@ const SingleUserRole: React.FC<{
                     setSelectedRole(e.target.value)
                   }}
                 >
-                  <option value={undefined}></option>
+                  <option value=''>Select a Role</option>
                   {roles.map((role, index) => {
-                    if (role.role != user.role)
+                    if (role.role !== user.role) {
                       return (
                         <option key={index} value={role.role}>
                           {role.role}
                         </option>
                       )
+                    }
                   })}
                 </select>
               </div>

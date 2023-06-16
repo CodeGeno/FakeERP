@@ -22,8 +22,6 @@ const Wrapper = styled.div`
   .list-container {
     display: flex;
     flex-direction: column;
-    border-top-width: 2px;
-    border-top-style: lightgrey;
     width: 100%;
   }
   .list-btn {
@@ -32,7 +30,9 @@ const Wrapper = styled.div`
     border: transparent;
     letter-spacing: var(--letterSpacing);
     padding: 0.375rem 0.75rem;
-    box-shadow: var(--shadow-2);
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
     text-transform: capitalize;
     display: flex;
     justify-content: center;

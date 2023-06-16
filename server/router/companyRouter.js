@@ -1,15 +1,17 @@
 import express from 'express'
 import {
   createCompany,
-  getAllCompaniesNames,
+  getAllCompanies,
   getOffices,
+  getSingleCompany,
   updateOffices,
 } from '../controllers/companyController.js'
 
 const router = express.Router()
 
+router.route('/getSingleCompany/:id').get(getSingleCompany)
 router.route('/create').post(createCompany)
-router.route('/getCompanyNames').get(getAllCompaniesNames)
+router.route('/getCompanies').get(getAllCompanies)
 router.route('/getOffices/:companyName').get(getOffices)
-router.route('/updateOffices').patch(updateOffices)
+router.route('/updateCompany').patch(updateOffices)
 export default router

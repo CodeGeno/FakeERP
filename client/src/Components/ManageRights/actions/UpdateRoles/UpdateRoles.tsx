@@ -1,23 +1,23 @@
 import { useAppContext } from '../../../../context/appContext'
 import { useEffect, useState } from 'react'
-import { Role } from '../../../../context/appContext'
+import { Role } from '../../../../Models/ContextModel'
 import Wrapper from './UpdateRolesWrapper'
 import Checkbox from '../../Checkbox'
 import Alert from '../../../Alert'
 function UpdateRoles() {
   const { getRoles, deleteRole } = useAppContext()
-  const [roles, setRoles] = useState<Role[] | void>()
+  const [roles, setRoles] = useState<Role[]>()
   const [selectedRole, setSelectedRole] = useState<Role>()
   const [roleIndex, setRoleIndex] = useState<number>()
 
   const getData: () => void = async () => {
     const data = await getRoles()
-    setRoles(data)
+    setRoles([...data])
   }
 
-  const deletingRole: () => void = async () => {
+  const deletingRole = async () => {
     try {
-      deleteRole(selectedRole)
+      await deleteRole(selectedRole)
     } catch (error) {
       console.log(error)
     }
@@ -30,10 +30,6 @@ function UpdateRoles() {
   }, [])
 
   useEffect(() => {
-    console.log(selectedRole)
-  }, [selectedRole])
-
-  useEffect(() => {
     if (roles) {
       setSelectedRole(roles[roleIndex])
     }
@@ -42,9 +38,18 @@ function UpdateRoles() {
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedRole({ ...selectedRole, [e.target.name]: e.target.checked })
   }
+  const handleBoxPress = (property) => {
+    let temp = selectedRole
+    temp[property] = !temp[property]
+    setSelectedRole({ ...temp })
+  }
+  const handleRoleDelete = () => {
+    let temp = roles
+    temp.splice(roleIndex, 1)
+  }
   return (
     <Wrapper>
-      <h2>ManagerRights</h2>
+      <h2>Manager Rights</h2>
       <div>
         <Alert />
         <div className='form-label'>Select Role:</div>
@@ -78,6 +83,7 @@ function UpdateRoles() {
             handleCheck={handleCheck}
             roleIndex={roleIndex}
             deletingRole={deletingRole}
+            handleBoxPress={handleBoxPress}
           />
         </>
       )}

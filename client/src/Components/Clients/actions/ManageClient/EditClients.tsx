@@ -1,54 +1,53 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, SetStateAction } from 'react'
+import { useAppContext } from '../../../../context/appContext'
+import { Company } from '../../../../Models/CompanyModel'
 
 const EditClients: React.FC<{
-  singleOffice: any
-  index: number
-  handleOffice: (e, index) => void
-  handleOfficeRemove: (index: number) => void
-}> = ({ singleOffice, index, handleOffice, handleOfficeRemove }) => {
-  const [isEditing, setIsEditing] = useState(false)
-  const { id, company, street, houseNr, zipCode, country, officeName, city } =
-    singleOffice
-
-  useEffect(() => {
-    if (id === undefined) {
-      setIsEditing(true)
-    }
-  }, [])
+  companyData: Company
+  isEditing: boolean
+  setIsEditing: React.Dispatch<SetStateAction<boolean>>
+  handleCompany: (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => void
+  handleUpdate: () => void
+}> = ({
+  companyData,
+  handleCompany,
+  handleUpdate,
+  setIsEditing,
+  isEditing,
+}) => {
+  const { updateCompany } = useAppContext()
+  const { id, company, street, houseNr, zipCode, country, city } = companyData
 
   return (
     <>
       {isEditing ? (
         <>
-          <h3>{index === 0 ? 'Home Office' : `Office nº${1 + index}`}</h3>
-          <div className='moreOffice' key={index}>
-            {index !== 0 && (
-              <div className='office-row'>
-                <div className='office-row-left'>
-                  <label className='form-label' htmlFor='Office Name'>
-                    Office Name
-                  </label>
+          <div className='moreOffice'>
+            <div className='office-row'>
+              <div className='office-row-left'>
+                <label className='form-label' htmlFor='Office Name'>
+                  Company Name
+                </label>
 
-                  <input
-                    className='form-input'
-                    name='officeName'
-                    value={singleOffice.officeName}
-                    onChange={(e) => {
-                      handleOffice(e, index)
-                    }}
-                  />
-                </div>
-
-                <button
-                  className='btn'
-                  onClick={() => {
-                    handleOfficeRemove(index)
+                <input
+                  className='form-input'
+                  name='company'
+                  value={companyData.company}
+                  onChange={(e) => {
+                    handleCompany(e)
                   }}
-                >
-                  Remove
-                </button>
+                />
               </div>
-            )}
+
+              <button className='btn' onClick={() => {}}>
+                Remove
+              </button>
+            </div>
+
             <div className='street-row'>
               <div className='street'>
                 <label className='form-label' htmlFor='Street'>
@@ -57,9 +56,9 @@ const EditClients: React.FC<{
                 <input
                   className='form-input'
                   name='street'
-                  value={singleOffice.street}
+                  value={companyData.street}
                   onChange={(e) => {
-                    handleOffice(e, index)
+                    handleCompany(e)
                   }}
                 />
               </div>
@@ -71,9 +70,9 @@ const EditClients: React.FC<{
                   min='1'
                   className='form-input'
                   name='houseNr'
-                  value={singleOffice.houseNr}
+                  value={companyData.houseNr}
                   onChange={(e) => {
-                    handleOffice(e, index)
+                    handleCompany(e)
                   }}
                   type='number'
                 />
@@ -87,9 +86,9 @@ const EditClients: React.FC<{
                 <input
                   className='form-input'
                   name='city'
-                  value={singleOffice.city}
+                  value={companyData.city}
                   onChange={(e) => {
-                    handleOffice(e, index)
+                    handleCompany(e)
                   }}
                   type='text'
                 />
@@ -102,9 +101,9 @@ const EditClients: React.FC<{
                   min='1'
                   className='form-input'
                   name='zipCode'
-                  value={singleOffice.zipCode}
+                  value={companyData.zipCode}
                   onChange={(e) => {
-                    handleOffice(e, index)
+                    handleCompany(e)
                   }}
                   type='number'
                 />
@@ -115,10 +114,28 @@ const EditClients: React.FC<{
                 <label className='form-label' htmlFor='Country'>
                   Country
                 </label>
-                <select className='form-select'>
-                  <option>a</option>
+                <select
+                  className='form-select'
+                  onChange={(e) => {
+                    handleCompany(e)
+                  }}
+                  name='country'
+                  value={companyData.country ? companyData.country : ''}
+                >
+                  <option disabled value=''>
+                    Please select an option
+                  </option>
+                  {europeanCountries.map((country) => (
+                    <option value={country}>{country}</option>
+                  ))}
                 </select>
               </div>
+            </div>
+
+            <div className='btn-section'>
+              <button className='btn' onClick={handleUpdate}>
+                Submit
+              </button>
             </div>
           </div>
         </>
@@ -126,7 +143,7 @@ const EditClients: React.FC<{
         <div className='office-row'>
           <div className='office-row-left'>
             <div className='edit-row'>
-              <h4>{officeName}</h4>
+              <h4>{company}</h4>
               <button
                 className='btn'
                 onClick={() => {
@@ -146,3 +163,33 @@ const EditClients: React.FC<{
   )
 }
 export default EditClients
+
+const europeanCountries = [
+  'Austria',
+  'Belgium',
+  'Bulgaria',
+  'Croatia',
+  'Cyprus',
+  'Czech Republic',
+  'Denmark',
+  'Estonia',
+  'Finland',
+  'France',
+  'Germany',
+  'Greece',
+  'Hungary',
+  'Ireland',
+  'Italy',
+  'Latvia',
+  'Lithuania',
+  'Luxembourg',
+  'Malta',
+  'Netherlands',
+  'Poland',
+  'Portugal',
+  'Romania',
+  'Slovakia',
+  'Slovenia',
+  'Spain',
+  'Sweden',
+]

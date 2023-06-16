@@ -1,13 +1,9 @@
 import {
-  HANDLE_CHANGE,
   REGISTER_USER_BEGIN,
   REGISTER_USER_SUCCESS,
-  REGISTER_USER_ERROR,
-  LOGIN_USER_BEGIN,
   LOGIN_USER_ERROR,
   LOGIN_USER_SUCCESS,
   CLEAR_ALERT,
-  SET_LAST_URL,
   UPDATE_USER_BEGIN,
   LOGOUT_USER,
   CREATE_ROLE_SUCCESS,
@@ -15,23 +11,13 @@ import {
   UPDATE_USER_ERROR,
   SET_SLIDER,
   UPDATE_OFFICES_SUCCESS,
+  CUSTOM_ALERT,
 } from './actions'
 
-import { defaultContextState, initialState } from './appContext'
-export interface actionType {
-  type: string
-  payload?: {
-    error?: any
-    action?: any
-    msg?: string
-    userDetail?: []
-    token?: string
-    role?: string
-    showSlider?: boolean
-  }
-}
+import { defaultContextState } from '../Models/ContextModel'
+import { reducerActionType } from '../Models/ContextModel'
 
-const reducer = (state: defaultContextState, action: actionType) => {
+const reducer = (state: defaultContextState, action: reducerActionType) => {
   if (action.type === SET_SLIDER) {
     return { ...state, showSlider: !state.showSlider }
   }
@@ -54,6 +40,9 @@ const reducer = (state: defaultContextState, action: actionType) => {
       alertShow: true as boolean,
       alertType: 'success' as string,
     }
+  }
+  if (action.type === LOGOUT_USER) {
+    return { ...state, userDetail: '', token: '', role: '' }
   }
   if (action.type === LOGIN_USER_ERROR) {
     return {
@@ -112,6 +101,14 @@ const reducer = (state: defaultContextState, action: actionType) => {
       alertMessage: 'Company Updated !',
       alertShow: true,
       alertType: 'success',
+    }
+  }
+  if (action.type === CUSTOM_ALERT) {
+    return {
+      ...state,
+      alertMessage: action.payload.msg,
+      alertShow: true,
+      alertType: action.payload.alertType,
     }
   }
   throw new Error(`No such action :${action.type}`)

@@ -7,12 +7,15 @@ const Wrapper = styled.div`
     flex-wrap: wrap;
     width: 100%;
     justify-content: center;
-    margin: 0;
-    padding: 0 5rem;
   }
   .alert {
     width: 100%;
     margin: 0;
+  }
+  .form-input {
+    font-size: 2rem;
+    height: auto;
+    margin: 0 0 1rem 0;
   }
 `
 

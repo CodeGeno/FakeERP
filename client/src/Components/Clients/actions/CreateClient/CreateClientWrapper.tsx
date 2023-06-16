@@ -4,17 +4,16 @@ const Wrapper = styled.div`
   h3 {
     margin: 2rem 0 0.5rem 0;
   }
-  .company-name {
-    display: flex;
-  }
+
   .company {
-    flex-basis: 80%;
+    flex-basis: 100%;
+    width: 100%;
   }
   .street-row {
     display: flex;
   }
   .street {
-    flex-basis: 60%;
+    flex-basis: 100%;
     padding: 0 1rem 0 0;
   }
   .house-number {
@@ -23,14 +22,12 @@ const Wrapper = styled.div`
   .zip-row {
     display: flex;
   }
-  .zip {
-    flex-basis: 40%;
-  }
+
   .country-row {
     display: flex;
   }
   .country {
-    flex-basis: 80%;
+    flex-basis: 100%;
   }
   .tax-row {
     display: flex;
@@ -41,25 +38,25 @@ const Wrapper = styled.div`
 
   .moreOffice {
     margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
     .form-label {
       margin: 0;
     }
   }
   .office-row {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: flex-end;
-    .office-row-left {
-      flex-basis: 80%;
-    }
-
     .btn {
       display: flex;
       font-size: 1rem;
     }
   }
   .city {
-    flex-basis: 40%;
+    flex-basis: 90%;
     padding: 0 1rem 0 0;
   }
 `

@@ -22,8 +22,11 @@ const login = async (req, res) => {
     throw new BadRequestError('No account found')
   }
   let user = data[0]
-  const { uid } = user
+  const { uid, role } = user
   user.token = jwt.sign({ uid }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
+  })
+  user.role = jwt.sign({ role }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME,
   })
 

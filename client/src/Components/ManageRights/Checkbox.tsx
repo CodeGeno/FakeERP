@@ -1,12 +1,20 @@
-import { Role } from '../../context/appContext'
+import { Role, UserRole } from './../../Models/ContextModel'
+
 import { useState, useEffect } from 'react'
 import { useAppContext } from '../../context/appContext'
 const Checkbox: React.FC<{
   selectedRole: Role
   roleIndex: number
+  handleBoxPress: (property: string) => void
   handleCheck: (e: React.ChangeEvent<HTMLInputElement>) => void
   deletingRole: () => void
-}> = ({ selectedRole, handleCheck, roleIndex, deletingRole }) => {
+}> = ({
+  selectedRole,
+  handleCheck,
+  roleIndex,
+  handleBoxPress,
+  deletingRole,
+}) => {
   const { updateRole } = useAppContext()
   const [deleteVerification, setDeleteVerification] = useState<boolean>(false)
   const handleDelete: () => void = () => {
@@ -16,62 +24,99 @@ const Checkbox: React.FC<{
       setDeleteVerification(true)
     }
   }
+
   return (
     <div key={roleIndex}>
-      <div className='right-section-single btn'>
+      <div
+        className='right-section-single btn'
+        onClick={() => {
+          handleBoxPress('manageProducts')
+        }}
+      >
         <input
           type='checkbox'
           name='manageProducts'
           onChange={handleCheck}
-          defaultChecked={selectedRole.manageProducts}
+          checked={selectedRole.manageProducts} // Add checked property here
         />
         <div>Manage Products</div>
       </div>
-      <div className='right-section-single btn'>
+
+      <div
+        className='right-section-single btn'
+        onClick={() => {
+          handleBoxPress('inventory')
+        }}
+      >
         <input
           type='checkbox'
-          name='estimate'
+          name='inventory'
           onChange={handleCheck}
-          defaultChecked={selectedRole.estimate}
+          checked={selectedRole.inventory} // Add checked property here
         />
-        <div>Create Estimates</div>
+        <div>Manage Inventory</div>
       </div>
-      <div className='right-section-single btn'>
+
+      <div
+        className='right-section-single btn'
+        onClick={() => {
+          handleBoxPress('manageClients')
+        }}
+      >
         <input
           type='checkbox'
           name='manageClients'
           onChange={handleCheck}
-          defaultChecked={selectedRole.manageClients}
+          checked={selectedRole.manageClients} // Add checked property here
         />
         <div>Manage Clients</div>
       </div>
-      <div className='right-section-single btn'>
+
+      <div
+        className='right-section-single btn'
+        onClick={() => {
+          handleBoxPress('manageRights')
+        }}
+      >
         <input
           type='checkbox'
           name='manageRights'
           onChange={handleCheck}
-          defaultChecked={selectedRole.manageRights}
+          checked={selectedRole.manageRights} // Add checked property here
         />
         <div>Manage Rights</div>
       </div>
-      <div className='right-section-single btn'>
+
+      <div
+        className='right-section-single btn'
+        onClick={() => {
+          handleBoxPress('orders')
+        }}
+      >
         <input
           type='checkbox'
           name='orders'
           onChange={handleCheck}
-          defaultChecked={selectedRole.orders}
+          checked={selectedRole.orders} // Add checked property here
         />
         <div>Create Orders</div>
       </div>
-      <div className='right-section-single btn'>
+
+      <div
+        className='right-section-single btn'
+        onClick={() => {
+          handleBoxPress('employees')
+        }}
+      >
         <input
           type='checkbox'
-          name='accounting'
+          name='employees'
           onChange={handleCheck}
-          defaultChecked={selectedRole.accounting}
+          checked={selectedRole.employees} // Add checked property here
         />
-        <div>Accounting</div>
+        <div>Manage Employees</div>
       </div>
+
       <div className='submit-btn-section'>
         <button
           className='btn'

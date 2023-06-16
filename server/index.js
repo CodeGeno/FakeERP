@@ -4,23 +4,35 @@ import bodyParser from 'body-parser'
 import mysql from 'mysql2'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import path from 'path'
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
 dotenv.config()
 //middleware
 import notFoundMiddleware from './middleware/not-found.js'
 import errorHandlerMiddleware from './middleware/error-handler.js'
 import authenticateUser from './middleware/auth.js'
-
+import { checkRights } from './middleware/checkRights.js'
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 app.use(express.json())
+app.use(express.static('public'))
+
+// only when ready to deploy
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
+app.use(express.static(path.resolve(__dirname, './client/build')))
 
 //routers
 import authRouter from './router/authRouter.js'
 import rolesRouter from './router/rolesRouter.js'
 import userRouter from './router/userRouter.js'
 import companyRouter from './router/companyRouter.js'
-
+import productRouter from './router/productRouter.js'
+import employeeRouter from './router/employeeRouter.js'
+import inventoryRouter from './router/inventoryRouter.js'
+import ordersRouter from './router/ordersRouter.js'
 export const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
@@ -30,13 +42,22 @@ export const db = mysql.createPool({
 })
 
 app.use('/api/v1/auth', authRouter)
-app.use('/api/v1/roles', rolesRouter)
+app.use('/api/v1/roles', checkRights('manageRights'), rolesRouter)
 app.use('/api/v1/user', userRouter)
-app.use('/api/v1/company', companyRouter)
+app.use('/api/v1/company', checkRights('manageClients'), companyRouter)
+app.use('/api/v1/product', checkRights('manageProducts'), productRouter)
+app.use('/api/v1/employee', checkRights('employees'), employeeRouter)
+app.use('/api/v1/inventory', checkRights('inventory'), inventoryRouter)
+app.use('/api/v1/orders', checkRights('orders'), ordersRouter)
 
-app.use(notFoundMiddleware)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './../client/build/', 'index.html'))
+})
+
 app.use(errorHandlerMiddleware)
+app.use(notFoundMiddleware)
 
-app.listen(3001, () => {
-  console.log('Running on port 3001')
+const PORT = 3001
+app.listen(PORT, () => {
+  console.log(`Running on port ${PORT}`)
 })

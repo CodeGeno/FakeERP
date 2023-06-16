@@ -1,12 +1,13 @@
-import React, { useReducer, useContext, createContext, useEffect } from 'react'
+import { useReducer, useContext, createContext } from 'react'
 import axios from 'axios'
-import reducer, { actionType } from './reducer'
+import reducer from './reducer'
 import {
   CLEAR_ALERT,
   CREATE_ROLE_ERROR,
-  CREATE_ROLE_SUCCESS,
+  CUSTOM_ALERT,
   LOGIN_USER_ERROR,
   LOGIN_USER_SUCCESS,
+  LOGOUT_USER,
   REGISTER_USER_BEGIN,
   REGISTER_USER_SUCCESS,
   SET_SLIDER,
@@ -14,51 +15,22 @@ import {
   UPDATE_USER_BEGIN,
   UPDATE_USER_ERROR,
 } from './actions'
+
+//MODELS
+import {
+  defaultContextState,
+  UserRole,
+  Role,
+  AppContextProps,
+} from '../Models/ContextModel'
+import { Employee } from '../Models/EmployeeModel'
+import { ProductDB } from '../Models/ProductModel'
+import { Company } from '../Models/CompanyModel'
+
 const token = localStorage.getItem('token')
 const userDetail = localStorage.getItem('userDetail')
 const role = localStorage.getItem('role')
 
-export interface UserRole {
-  email: string
-  role: string
-  uid: number
-}
-export interface Role {
-  role: string
-  estimate: boolean
-  manageProducts: boolean
-  manageRights: boolean
-  manageClients: boolean
-  orders: boolean
-  accounting: boolean
-}
-export interface defaultContextState {
-  showSlider: boolean
-  token: string
-  name: string
-  userDetail: any
-  role: string
-  alertType: string
-  alertShow: boolean
-  alertMessage: string
-  loading: boolean
-  registerUser?: (email: string, password: string) => void
-  loginUser?: (email: string, password: string) => void
-  getRoles?: () => undefined | void | Promise<Role[]>
-  createRole?: (newRole: Role) => void
-  updateRole?: (updatedRole: Role) => void
-  deleteRole?: (roleToDelete: Role) => void
-  getUsers?: () => Promise<UserRole[]>
-  updateUser?: (userToUpdate: UserRole, roleToUpdate: string) => void
-  createCompany?: (companyDetails: any, companyName: string) => void
-  getCompanies?: () => any
-  getCompanyOffices?: (companyName: string) => any
-  updateOffices?: (Offices: any) => any
-  handleSlider?: () => any
-}
-interface AppContextProps {
-  children: React.ReactNode
-}
 const initialState: defaultContextState = {
   showSlider: true,
   token: token || '',
@@ -73,9 +45,6 @@ const initialState: defaultContextState = {
 
 const AppContext = createContext(initialState)
 
-interface actions {
-  type: string
-}
 const AppProvider = ({ children }: AppContextProps) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
@@ -100,6 +69,7 @@ const AppProvider = ({ children }: AppContextProps) => {
     localStorage.removeItem('userDetail')
     localStorage.removeItem('token')
     localStorage.removeItem('role')
+    dispatch({ type: LOGOUT_USER })
   }
 
   const clearAlert: () => void = () => {
@@ -111,9 +81,25 @@ const AppProvider = ({ children }: AppContextProps) => {
   const baseFetch = axios.create({
     baseURL: 'http://localhost:3001/api/v1/',
   })
-  const authFetch = axios.create({
-    baseURL: 'http://localhost:3001/api/v1/',
-  })
+  baseFetch.defaults.headers.common['role'] = localStorage.getItem('role')
+
+  baseFetch.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response && error.response.status === 401) {
+        // Handle authentication error
+        console.log('Authentication error')
+        removeUserFromLocalStorage()
+        dispatch({
+          type: CUSTOM_ALERT,
+          payload: { msg: error.response.data.msg, alertType: 'danger' },
+        })
+
+        // You can perform any necessary actions, such as redirecting to a login page or displaying an error message
+      }
+      return Promise.reject(error)
+    }
+  )
 
   //USER REGISTRATION
   const registerUser: (email: string, password: string) => void = async (
@@ -138,8 +124,7 @@ const AppProvider = ({ children }: AppContextProps) => {
     try {
       let response = await baseFetch.post('/auth/login', { email, password })
       const { data } = response
-      const { msg } = data
-      console.log(data)
+
       dispatch({
         type: LOGIN_USER_SUCCESS,
         payload: { userDetail: data.email, token: data.token, role: data.role },
@@ -155,18 +140,21 @@ const AppProvider = ({ children }: AppContextProps) => {
         payload: { msg: error.response.data.msg },
       })
     }
+    clearAlert()
   }
   const getRoles = async () => {
     let response = await baseFetch.get('/roles')
     const { data } = response
-    console.log(data)
     return data
   }
 
   const createRole: (newRole: Role) => void = async (newRole) => {
     try {
       await baseFetch.post('/roles/new', newRole)
-      dispatch({ type: CREATE_ROLE_SUCCESS })
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'Role Created !', alertType: 'success' },
+      })
     } catch (error) {
       dispatch({
         type: CREATE_ROLE_ERROR,
@@ -177,15 +165,28 @@ const AppProvider = ({ children }: AppContextProps) => {
   }
   const updateRole: (updatedRole: Role) => void = async (updatedRole) => {
     try {
-      const response = await baseFetch.patch('/roles/update', updatedRole)
+      await baseFetch.patch('/roles/update', updatedRole)
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'Role updated !', alertType: 'success' },
+      })
     } catch (error) {
       console.log(error)
     }
+    clearAlert()
+  }
+  const getRole = async (email: string) => {
+    const result = await baseFetch.get(`/roles/singleRole/${email}`)
+    return result.data
   }
   const deleteRole: (roleToDelete: Role) => void = async (roleToDelete) => {
     console.log(roleToDelete.role)
     try {
       await baseFetch.delete(`/roles/delete/${roleToDelete.role}`)
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'Role  deleted !', alertType: 'success' },
+      })
     } catch (error) {}
   }
   const getUsers: () => Promise<UserRole[]> = async () => {
@@ -197,12 +198,13 @@ const AppProvider = ({ children }: AppContextProps) => {
       console.log(error)
     }
   }
+
   const updateUser: (
     userToUpdate: UserRole,
     roleToUpdate: string
   ) => void = async (userToUpdate, roleToUpdate) => {
     try {
-      const response = await baseFetch.patch('/user/updateUserRole', {
+      await baseFetch.patch('/user/updateUserRole', {
         userToUpdate,
         roleToUpdate,
       })
@@ -215,31 +217,269 @@ const AppProvider = ({ children }: AppContextProps) => {
     }
     clearAlert()
   }
-  const createCompany = async (companyDetails, companyName) => {
-    let response = await baseFetch.post('/company/create', {
-      companyDetails,
-      companyName,
+  const createCompany = async (companyDetails: Company[]) => {
+    let response = await baseFetch.post('/company/create', companyDetails)
+    dispatch({
+      type: CUSTOM_ALERT,
+      payload: { msg: response.data.msg, alertType: 'success' },
     })
+    clearAlert()
+  }
+  const getSingleCompany = async (companyId) => {
+    try {
+      let result = await baseFetch.get(`/company/getSingleCompany/${companyId}`)
+
+      return result.data[0]
+    } catch (error) {
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: {
+          msg: 'Error getting company details..',
+          alertType: 'danger',
+        },
+      })
+      clearAlert()
+    }
   }
   const getCompanies = async () => {
-    let response = await baseFetch.get('/company/getCompanyNames')
+    let response = await baseFetch.get('/company/getCompanies')
     const { data } = response
     return data
   }
-  const getCompanyOffices = async (companyName: any) => {
-    console.log(companyName)
-    let response = await baseFetch.get(`/company/getOffices/${companyName}`)
-    const { data } = response
-    return data
-  }
-  const updateOffices = async (Offices) => {
+
+  const updateCompany = async (Offices) => {
     try {
-      await baseFetch.patch('/company/updateOffices', Offices)
+      await baseFetch.patch('/company/updateCompany', Offices)
       dispatch({ type: UPDATE_OFFICES_SUCCESS })
     } catch (error) {
       console.log(error)
     }
     clearAlert()
+  }
+  const createProduct = async (product) => {
+    const formData = new FormData()
+    const { productName, productImages } = product
+
+    if (productName.length > 0) {
+      if (productImages.length > 0) {
+        formData.append('directory', productName)
+        for (let i = 0; i < productImages.length; i++) {
+          formData.append(`image${i}`, productImages[i])
+        }
+
+        await baseFetch.post('/product/images', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+      }
+      let productData = product
+      productData.productImages = undefined
+      try {
+        await baseFetch.post('/product/addProduct', productData)
+        dispatch({
+          type: CUSTOM_ALERT,
+          payload: { msg: 'Success', alertType: 'success' },
+        })
+      } catch (error) {
+        dispatch({
+          type: CUSTOM_ALERT,
+          payload: { msg: 'Error !', alertType: 'danger' },
+        })
+      }
+    } else {
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'Please enter product name !', alertType: 'danger' },
+      })
+    }
+  }
+  const getAllProducts = async () => {
+    let resultat = await baseFetch.get('/product/allProducts')
+
+    return resultat.data
+  }
+  const getSingleProduct = async (id) => {
+    let result = await baseFetch(`/product/product/${id}`)
+    console.log(result.data)
+    return result.data[0]
+  }
+  const updateProduct = async (product: any) => {
+    const formData = new FormData()
+    formData.append('id', product[0].id)
+    formData.append('name', product[0].name)
+    formData.append('description', product[0].description)
+    formData.append('price', product[0].price)
+    formData.append('path', product[0].path)
+    product[0].images.forEach((image) => {
+      formData.append('images', image)
+    })
+    product[1].forEach((image) => {
+      formData.append('newImages[]', image.file)
+    })
+    try {
+      let result = await baseFetch.patch(
+        `/product/updateProduct/${product[0].id}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      )
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'Update Successful !', alertType: 'success' },
+      })
+      clearAlert()
+      return result.data
+    } catch (error) {
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'ERROR !', alertType: 'danger' },
+      })
+      clearAlert()
+    }
+  }
+
+  const cancelModification = async (id: number) => {
+    try {
+      let result = await baseFetch.get(`/product/getProduct/${id}`)
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'Modifications undone !', alertType: 'success' },
+      })
+      return result.data
+    } catch (error) {
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'Error !', alertType: 'danger' },
+      })
+      clearAlert()
+    }
+
+    clearAlert()
+  }
+
+  const createEmployee = async (employee: Employee) => {
+    let result = await baseFetch.post('/employee/createEmployee', employee)
+    const { data } = result
+    return data.msg
+  }
+  const getEmployees = async () => {
+    let result = await baseFetch.get('/employee/getEmployees')
+    return result.data
+  }
+  const updateEmployee = async (employee: Employee) => {
+    try {
+      await baseFetch.patch('/employee/updateEmployee', employee)
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'Employee Updated !', alertType: 'success' },
+      })
+    } catch (error) {
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'Error !', alertType: 'danger' },
+      })
+    }
+    clearAlert()
+  }
+  const deleteEmployee = async (id) => {
+    try {
+      await baseFetch.delete(`/employee/deleteEmployee/${id}`)
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'Employee Removed !', alertType: 'success' },
+      })
+    } catch (error) {
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'Error !', alertType: 'danger' },
+      })
+    }
+    clearAlert()
+  }
+  const getProductsInventory = async () => {
+    let result = await baseFetch.get('/inventory/getInventory')
+    return result.data
+  }
+  const updateInventory = async (products: ProductDB[]) => {
+    let temp = []
+    for (const product of products) {
+      if (product.quantity > 0) temp.push(product)
+    }
+    if (temp.length === 0) {
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: 'No item added check quantity !', alertType: 'danger' },
+      })
+    } else {
+      try {
+        const response = await baseFetch.patch(
+          '/inventory/updateInventory',
+          temp
+        )
+        dispatch({
+          type: CUSTOM_ALERT,
+          payload: { msg: response.data.msg, alertType: 'success' },
+        })
+      } catch (error) {
+        dispatch({
+          type: CUSTOM_ALERT,
+          payload: { msg: 'Error during update !', alertType: 'danger' },
+        })
+      }
+    }
+    clearAlert()
+  }
+  const createOrder = async (orderData: any) => {
+    await baseFetch.post('/orders/create', {
+      orderData,
+      userDetail,
+    })
+  }
+  const getAllOrders = async () => {
+    let result = await baseFetch.get('/orders/getOrders')
+    return result.data
+  }
+  const updateOrderStatus = async (orderData, newStatus) => {
+    let response
+    try {
+      await baseFetch.patch('/orders/update', {
+        orderData,
+        newStatus,
+      })
+      response = await baseFetch.get(`/orders/getOrder/${orderData.orderId}`)
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: {
+          msg: `Status updated to ${newStatus}`,
+          alertType: 'success',
+        },
+      })
+    } catch (error) {
+      dispatch({
+        type: CUSTOM_ALERT,
+        payload: { msg: error.response.data.msg, alertType: 'danger' },
+      })
+      return null
+    }
+
+    clearAlert()
+    return response.data[0]
+  }
+  const AlertMessageAndType = (message, alertType) => {
+    dispatch({
+      type: CUSTOM_ALERT,
+      payload: {
+        msg: message,
+        alertType: alertType,
+      },
+    })
+    setTimeout(() => {
+      clearAlert()
+    }, 3000)
   }
   return (
     <AppContext.Provider
@@ -254,10 +494,26 @@ const AppProvider = ({ children }: AppContextProps) => {
         getUsers,
         updateUser,
         createCompany,
+        getSingleCompany,
         getCompanies,
-        getCompanyOffices,
-        updateOffices,
+        updateCompany,
         handleSlider,
+        createProduct,
+        getAllProducts,
+        updateProduct,
+        cancelModification,
+        createEmployee,
+        getEmployees,
+        updateEmployee,
+        deleteEmployee,
+        updateInventory,
+        getProductsInventory,
+        getSingleProduct,
+        createOrder,
+        getAllOrders,
+        updateOrderStatus,
+        AlertMessageAndType,
+        getRole,
       }}
     >
       {children}

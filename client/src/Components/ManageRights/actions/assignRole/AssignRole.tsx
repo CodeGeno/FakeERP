@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { useAppContext, Role, UserRole } from '../../../../context/appContext'
+import { useAppContext } from '../../../../context/appContext'
+import { Role, UserRole } from '../../../../Models/ContextModel'
 import { useState } from 'react'
 import Wrapper from './AssignRoleWrapper'
 import SingleUserRole from './SingleUserRole'
@@ -27,8 +28,8 @@ const AssignRole: React.FC = () => {
   }, [])
   return (
     <Wrapper>
-      <h3>Assign Role</h3>
-      <label htmlFor='Search'>Search</label>
+      <h2>Assign Role</h2>
+      <label htmlFor='Search'>Search:</label>
       <input
         type='text'
         className='form-input'
@@ -40,14 +41,22 @@ const AssignRole: React.FC = () => {
       <div className='roles-section'>
         {users &&
           roles &&
-          users.map((user) => {
+          users.map((user, index) => {
             if (
               user.email.toLowerCase().includes(search) ||
               user.role.toLowerCase().includes(search)
-            )
+            ) {
               return (
-                <SingleUserRole roles={roles} user={user} getData={getData} />
+                <SingleUserRole
+                  key={index}
+                  roles={roles}
+                  user={user}
+                  getData={getData}
+                />
               )
+            } else {
+              return
+            }
           })}
       </div>
     </Wrapper>

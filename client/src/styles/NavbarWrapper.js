@@ -22,6 +22,13 @@ const Wrapper = styled.nav`
     font-size: 2rem;
     font-weight: 900;
   }
+  .singleTitle {
+    display: flex;
+    width: 100%;
+    font-size: 2rem;
+    font-weight: 900;
+    justify-content: center;
+  }
 `
 
 export default Wrapper

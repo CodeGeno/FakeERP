@@ -13,7 +13,7 @@ const Wrapper = styled.div`
     width: 95%;
     background-color: var(--white);
     border-radius: var(--borderRadius);
-    padding: 2rem 2rem;
+    padding: 2rem;
   }
   .actions-section {
     display: flex;
@@ -21,7 +21,7 @@ const Wrapper = styled.div`
     margin: 1rem 0;
   }
   a {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
 `
 

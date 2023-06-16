@@ -8,7 +8,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    font-size: 1.5rem;
+    font-size: 1em;
     margin: 10px 0;
     box-shadow: ${(props) => (props.show ? 'var(--shadow-4);' : '')};
     border-bottom-left-radius: var(--borderRadius);
@@ -24,6 +24,7 @@ const Wrapper = styled.div`
     justify-content: space-between;
     gap: 1rem;
     padding: 0 2rem;
+    font-size: 1.6rem;
   }
   .user-part-left {
     flex-basis: 50%;
@@ -40,12 +41,15 @@ const Wrapper = styled.div`
     .form-label {
       flex-basis: 50%;
       height: auto;
-      font-size: 2rem;
+      font-size: 1.6rem;
     }
   }
 
   .form-select {
     text-transform: capitalize;
+    font-size: 1rem;
+  }
+  .form-input {
   }
   .button-section {
     display: flex;

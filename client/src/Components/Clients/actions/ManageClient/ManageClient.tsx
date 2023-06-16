@@ -3,58 +3,53 @@ import { useAppContext } from '../../../../context/appContext'
 import Alert from '../../../Alert'
 import EditClients from './EditClients'
 import { Wrapper } from './ManageClientWrapper'
+import { Company } from '../../../../Models/CompanyModel'
 
 const ManageClient: React.FC = () => {
-  const { getCompanies, getCompanyOffices, updateOffices } = useAppContext()
+  const { getCompanies, getSingleCompany, updateCompany } = useAppContext()
   const [companyList, setCompanyList] = useState<any>()
-  const [selectedCompany, setSelectedCompany] = useState<string>()
-  const [companyOffices, setCompanyOffices] = useState<any>()
-  useEffect(() => {
-    console.log(selectedCompany)
-  }, [selectedCompany])
+  const [selectedCompany, setSelectedCompany] = useState<number>(undefined)
+  const [company, setCompany] = useState<Company>()
+  const [isEditing, setIsEditing] = useState(false)
+
   //Fetch All Company Names
   const getCompaniesNames = async () => {
     let data = await getCompanies()
     setCompanyList(data)
   }
-  const getOffices = async () => {
-    if (selectedCompany) {
-      let data = await getCompanyOffices(selectedCompany)
-      setCompanyOffices(data)
+  const getCompany = async (ind) => {
+    let data = await getSingleCompany(ind)
+    console.log(data)
+    setCompany(data)
+  }
+  const handleUpdate = async () => {
+    try {
+      await updateCompany(company)
+
+      let temp = companyList
+      temp = temp.map((singleCompany) => {
+        if (singleCompany.id === selectedCompany) {
+          singleCompany.company = company.company
+        }
+        return singleCompany
+      })
+
+      setCompanyList([...temp])
+    } catch (error) {
+      console.log(error)
     }
   }
   useEffect(() => {
     getCompaniesNames()
   }, [])
 
-  useEffect(() => {
-    if (selectedCompany) {
-      getOffices()
-    } else {
-      setCompanyOffices('')
-    }
-  }, [selectedCompany])
+  const handleCompany = (e) => {
+    let temp = company
+    temp[e.target.name] = e.target.value
+    setCompany({ ...temp })
+  }
+  const handleCompanyRemove = (index) => {}
 
-  const handleOffice = (e, index) => {
-    console.log(companyOffices)
-    let temp = companyOffices
-    temp[index][e.target.name] = e.target.value
-    setCompanyOffices([...temp])
-  }
-  const handleOfficeRemove = (index) => {
-    let temp = companyOffices
-    temp.splice(index, 1)
-    setCompanyOffices([...temp])
-  }
-  const addOffice = {
-    company: selectedCompany,
-    officeName: '',
-    streetName: '',
-    houseNr: '',
-    zipCode: '',
-    city: '',
-    country: '',
-  }
   return (
     <Wrapper>
       <h3>Manage Client</h3>
@@ -66,15 +61,20 @@ const ManageClient: React.FC = () => {
             className='form-select'
             value={selectedCompany}
             onChange={(e) => {
-              setSelectedCompany(e.target.value)
+              if (e.target.value !== '') {
+                setSelectedCompany(Number(e.target.value))
+                getCompany(e.target.value)
+                setIsEditing(false)
+              }
             }}
           >
-            <option value=''>Choose Company</option>
+            <option value='' disabled>
+              Choose Company
+            </option>
             {companyList &&
               companyList.map((company, index) => {
-                console.log(company)
                 return (
-                  <option key={index} value={company.company}>
+                  <option key={index} value={company.id}>
                     {company.company}
                   </option>
                 )
@@ -84,40 +84,15 @@ const ManageClient: React.FC = () => {
       ) : (
         'Create a company to acces this section'
       )}
-      {companyOffices &&
-        companyOffices.map((singleOffice, index) => {
-          return (
-            <EditClients
-              key={index}
-              singleOffice={singleOffice}
-              index={index}
-              handleOffice={handleOffice}
-              handleOfficeRemove={handleOfficeRemove}
-            />
-          )
-        })}
-      <div className='btn-section'>
-        {selectedCompany && (
-          <button
-            className='btn'
-            onClick={() => {
-              setCompanyOffices([...companyOffices, addOffice])
-            }}
-          >
-            Add office
-          </button>
-        )}
-        <button
-          className='btn'
-          disabled={!selectedCompany}
-          onClick={() => {
-            updateOffices(companyOffices)
-            setSelectedCompany('')
-          }}
-        >
-          Submit
-        </button>
-      </div>
+      {company && (
+        <EditClients
+          handleCompany={handleCompany}
+          companyData={company}
+          handleUpdate={handleUpdate}
+          setIsEditing={setIsEditing}
+          isEditing={isEditing}
+        />
+      )}
     </Wrapper>
   )
 }

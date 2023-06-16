@@ -4,31 +4,29 @@ import { BadRequestError } from '../errors/index.js'
 const getRoles = async (req, res) => {
   const query = `SELECT * FROM Roles`
   const result = await QueryResult(query)
-  console.log(result)
   res.status(StatusCodes.OK).json(result)
 }
 const newRole = async (req, res) => {
   const {
     role,
-    accounting,
-    estimate,
+    employees,
+    inventory,
     manageClients,
     manageProducts,
     manageRights,
     orders,
   } = req.body
-  const query = `INSERT INTO Roles VALUES('${role}',${estimate},${manageProducts},${manageRights},${orders},${accounting},${manageClients})`
+  const query = `INSERT INTO Roles(role,inventory,manageProducts,manageRights,orders,employees,manageClients) VALUES('${role}',${inventory},${manageProducts},${manageRights},${orders},${employees},${manageClients})`
 
   const result = await QueryResult(query)
 
   res.status(StatusCodes.OK).send('Role created!')
 }
 const updateRole = async (req, res) => {
-  console.log(req.body)
   const {
     role,
-    accounting,
-    estimate,
+    employees,
+    inventory,
     manageClients,
     manageProducts,
     manageRights,
@@ -37,12 +35,11 @@ const updateRole = async (req, res) => {
   try {
     const query = `
     UPDATE Roles set 
-    accounting=${accounting ? 1 : 0},
-    estimate=${estimate ? 1 : 0},
+    employees=${employees ? 1 : 0},
+    inventory=${inventory ? 1 : 0},
     manageProducts=${manageProducts ? 1 : 0},
     manageRights=${manageRights ? 1 : 0},
     orders=${orders ? 1 : 0},
-    accounting=${accounting ? 1 : 0},
     manageClients=${manageClients ? 1 : 0} 
     WHERE role='${role}'`
     const result = await QueryResult(query)
@@ -58,9 +55,16 @@ const deleteRole = async (req, res) => {
     const result = await QueryResult(query)
     const resetQuery = `UPDATE Users SET role='user' WHERE role='${role}'`
     await QueryResult(resetQuery)
-    res.status(StatusCodes.OK).json(result)
+    res.status(StatusCodes.OK).json({ msg: 'Role deleted !' })
   } catch (error) {
     throw new BadRequestError(`Couldn't delete the selected role`)
   }
 }
-export { getRoles, newRole, updateRole, deleteRole }
+const getRole = async (req, res) => {
+  const query = `SELECT users.role,inventory,R.manageClients,R.manageRights,R.manageProducts,R.employees,R.orders from Users
+                INNER JOIN Roles R on Users.role = R.role
+                WHERE email=${req.params.email}`
+  const result = await QueryResult(query)
+  res.status(200).json(result[0])
+}
+export { getRoles, newRole, updateRole, deleteRole, getRole }

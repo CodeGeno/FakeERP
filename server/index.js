@@ -4,9 +4,6 @@ import bodyParser from 'body-parser'
 import mysql from 'mysql2'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import path from 'path'
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
 dotenv.config()
 //middleware
 import notFoundMiddleware from './middleware/not-found.js'
@@ -18,11 +15,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 app.use(express.json())
 app.use(express.static('public'))
-
-// only when ready to deploy
-const __dirname = dirname(fileURLToPath(import.meta.url))
-
-app.use(express.static(path.resolve(__dirname, './client/build')))
 
 //routers
 import authRouter from './router/authRouter.js'
@@ -49,10 +41,6 @@ app.use('/api/v1/product', checkRights('manageProducts'), productRouter)
 app.use('/api/v1/employee', checkRights('employees'), employeeRouter)
 app.use('/api/v1/inventory', checkRights('inventory'), inventoryRouter)
 app.use('/api/v1/orders', checkRights('orders'), ordersRouter)
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './../client/build/', 'index.html'))
-})
 
 app.use(errorHandlerMiddleware)
 app.use(notFoundMiddleware)

@@ -79,7 +79,7 @@ const AppProvider = ({ children }: AppContextProps) => {
   }
   //Axios Setup
   const baseFetch = axios.create({
-    baseURL: 'http://localhost:3001/api/v1/',
+    baseURL: 'http://38.242.212.73:3000/api/v1/',
   })
   baseFetch.defaults.headers.common['role'] = localStorage.getItem('role')
 

@@ -2,7 +2,7 @@ import { QueryResult } from '../utils/DbQuery.js'
 import { StatusCodes } from 'http-status-codes'
 import { BadRequestError } from '../errors/index.js'
 const getRoles = async (req, res) => {
-  const query = `SELECT * FROM Roles`
+  const query = `SELECT * FROM ROLES`
   const result = await QueryResult(query)
   res.status(StatusCodes.OK).json(result)
 }
@@ -16,7 +16,7 @@ const newRole = async (req, res) => {
     manageRights,
     orders,
   } = req.body
-  const query = `INSERT INTO Roles(role,inventory,manageProducts,manageRights,orders,employees,manageClients) VALUES('${role}',${inventory},${manageProducts},${manageRights},${orders},${employees},${manageClients})`
+  const query = `INSERT INTO ROLES(role,inventory,manageProducts,manageRights,orders,employees,manageClients) VALUES('${role}',${inventory},${manageProducts},${manageRights},${orders},${employees},${manageClients})`
 
   const result = await QueryResult(query)
 
@@ -51,9 +51,9 @@ const updateRole = async (req, res) => {
 const deleteRole = async (req, res) => {
   const { role } = req.params
   try {
-    const query = `DELETE FROM Roles where role='${role}'`
+    const query = `DELETE FROM ROLES where role='${role}'`
     const result = await QueryResult(query)
-    const resetQuery = `UPDATE Users SET role='user' WHERE role='${role}'`
+    const resetQuery = `UPDATE USERS SET role='user' WHERE role='${role}'`
     await QueryResult(resetQuery)
     res.status(StatusCodes.OK).json({ msg: 'Role deleted !' })
   } catch (error) {
@@ -61,8 +61,8 @@ const deleteRole = async (req, res) => {
   }
 }
 const getRole = async (req, res) => {
-  const query = `SELECT users.role,inventory,R.manageClients,R.manageRights,R.manageProducts,R.employees,R.orders from Users
-                INNER JOIN Roles R on Users.role = R.role
+  const query = `SELECT USERS.role,inventory,R.manageClients,R.manageRights,R.manageProducts,R.employees,R.orders from USERS
+                INNER JOIN Roles R on USERS.role = R.role
                 WHERE email=${req.params.email}`
   const result = await QueryResult(query)
   res.status(200).json(result[0])

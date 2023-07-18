@@ -43,7 +43,7 @@ const EditClients: React.FC<{
                 />
               </div>
 
-              <button className='btn' onClick={() => {}}>
+              <button className='remove btn' onClick={() => {}}>
                 Remove
               </button>
             </div>
@@ -125,8 +125,10 @@ const EditClients: React.FC<{
                   <option disabled value=''>
                     Please select an option
                   </option>
-                  {europeanCountries.map((country) => (
-                    <option value={country}>{country}</option>
+                  {europeanCountries.map((country, index) => (
+                    <option key={index} value={country}>
+                      {country}
+                    </option>
                   ))}
                 </select>
               </div>

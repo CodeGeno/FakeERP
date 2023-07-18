@@ -120,7 +120,7 @@ const CreateOrder: React.FC = () => {
           )}
           <DateInput
             value={deliveryDate}
-            placeholder='Delivery date:'
+            placeholder='Delivery date'
             handleChange={handleChanges.deliveryDate}
             min={formatDate()}
           />
@@ -133,48 +133,51 @@ const CreateOrder: React.FC = () => {
           handleChange={handleChanges.addProduct}
         />
       </div>
-      <div className='product-table'>
-        <div className='title'>
-          <div className='name'>Name</div>
-          <div className='price'>Price</div>
-          <div className='quantity'>Quantity</div>
-          <div className='total'>Total</div>
-        </div>
-        {selectedProducts.map((selectedProduct, index) => {
-          return (
-            <ProductRow
-              key={index}
-              selectedProduct={selectedProduct}
-              handleChange={handleChanges.quantity}
-              index={index}
-              handleQuantityInput={handleChanges.quantityInput}
-              handleRemove={handleChanges.removeProduct}
-              last={index + 1 === selectedProducts.length ? true : false}
-            />
-          )
-        })}
-        <div className='total-price'>
-          <div className='empty'></div>
-          <div className='total'>Total:</div>
-          <div className='price'>
-            {totalAmount().toLocaleString('de-DE', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            }) + ' €'}
+      {selectedProducts.length > 0 && (
+        <div className='product-table'>
+          <div className='title'>
+            <div className='name'>Name</div>
+            <div className='price'>Price</div>
+            <div className='quantity'>Quantity</div>
+            <div className='total'>Total</div>
+          </div>
+          {selectedProducts.length > 0 &&
+            selectedProducts.map((selectedProduct, index) => {
+              return (
+                <ProductRow
+                  key={index}
+                  selectedProduct={selectedProduct}
+                  handleChange={handleChanges.quantity}
+                  index={index}
+                  handleQuantityInput={handleChanges.quantityInput}
+                  handleRemove={handleChanges.removeProduct}
+                  last={index + 1 === selectedProducts.length ? true : false}
+                />
+              )
+            })}
+          <div className='total-price'>
+            <div className='empty'></div>
+            <div className='total'>Total:</div>
+            <div className='price'>
+              {totalAmount().toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }) + ' €'}
+            </div>
+          </div>
+          <div className='btn-container'>
+            <button
+              className='btn'
+              onClick={() => {
+                handleOrderCreation()
+              }}
+              disabled={!checkOrder()}
+            >
+              Submit Order
+            </button>
           </div>
         </div>
-        <div className='btn-container'>
-          <button
-            className='btn'
-            onClick={() => {
-              handleOrderCreation()
-            }}
-            disabled={!checkOrder()}
-          >
-            Submit Order
-          </button>
-        </div>
-      </div>
+      )}
     </Wrapper>
   )
 }

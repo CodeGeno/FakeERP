@@ -65,6 +65,7 @@ export interface defaultContextState {
   getAllOrders?: () => any
   updateOrderStatus?: (orderData: any, newStatus: string) => any
   AlertMessageAndType?: (message: string, type: string) => void
+  handleMenuPress?: () => void
 }
 export interface AppContextProps {
   children: React.ReactNode

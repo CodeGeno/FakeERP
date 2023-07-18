@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .form-label {
     width: 300px;
   }
@@ -8,6 +11,7 @@ const Wrapper = styled.div`
     margin-bottom: 1rem;
   }
   .product-box {
+    background-color: red;
     display: flex;
     width: 100%;
     margin: 1rem;
@@ -59,6 +63,30 @@ const Wrapper = styled.div`
   .btn-section {
     display: flex;
     flex-direction: row;
+  }
+  @media screen and (max-width: 992px) {
+    .row {
+      width: 100%;
+      padding: 0 0.2rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .description {
+      width: 100%;
+      padding: 0 0.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .btn-section {
+      .btn {
+        font-size: 1rem;
+      }
+    }
   }
 `
 

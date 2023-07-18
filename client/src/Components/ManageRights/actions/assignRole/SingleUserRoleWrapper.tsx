@@ -2,13 +2,14 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
-  flex-basis: ${(props) => (props.show ? 100 : 100)}%;
-  transition: var(--transition-slow);
+  flex-basis: 100%;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   .user-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    font-size: 1em;
     margin: 10px 0;
     box-shadow: ${(props) => (props.show ? 'var(--shadow-4);' : '')};
     border-bottom-left-radius: var(--borderRadius);
@@ -20,28 +21,26 @@ const Wrapper = styled.div`
   }
 
   .user-row {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    padding: 0 2rem;
-    font-size: 1.6rem;
+    padding: 0 1rem;
+    font-size: 1rem;
   }
-  .user-part-left {
-    flex-basis: 50%;
-  }
-  .user-part-right {
-    flex-basis: 50%;
-    display: flex;
-    justify-content: flex-end;
-  }
+
   .options {
-    margin: 1rem 1rem;
+    margin: 0.5rem 1rem;
     display: flex;
     .form-select,
     .form-label {
       flex-basis: 50%;
+      display: flex;
       height: auto;
-      font-size: 1.6rem;
+      font-size: 0.8rem;
+      align-items: center;
+      margin: 0;
+      text-transform: capitalize;
     }
   }
 
@@ -56,6 +55,24 @@ const Wrapper = styled.div`
     .btn {
       flex-basis: 50%;
       font-size: 2rem;
+    }
+  }
+  @media screen and (max-width: 992px) {
+    .button-section {
+      display: flex;
+      .btn {
+        flex-basis: 50%;
+        font-size: 0.8rem;
+        padding: 0.5rem;
+      }
+    }
+    .user-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.5rem;
+      font-size: 0.8rem;
     }
   }
 `

@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 import { QueryResult } from '../utils/DbQuery.js'
 const getUsers = async (req, res) => {
-  const query = 'SELECT email,role,uid from Users'
+  const query = 'SELECT email,role,uid from USERS'
   const response = await QueryResult(query)
   res.status(StatusCodes.OK).json(response)
 }

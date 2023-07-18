@@ -12,6 +12,7 @@ import {
   SET_SLIDER,
   UPDATE_OFFICES_SUCCESS,
   CUSTOM_ALERT,
+  HANDLE_MENU_PRESS,
 } from './actions'
 
 import { defaultContextState } from '../Models/ContextModel'
@@ -28,6 +29,9 @@ const reducer = (state: defaultContextState, action: reducerActionType) => {
       alertShow: false,
       alertType: '',
     }
+  }
+  if (action.type === HANDLE_MENU_PRESS) {
+    return { ...state, showSlider: false }
   }
   if (action.type === REGISTER_USER_BEGIN) {
     return { ...state }

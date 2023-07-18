@@ -9,21 +9,24 @@ const SingleProduct: React.FC<{ product: ProductDB }> = ({ product }) => {
   const { description, images, name, path, price, id } = product
   return (
     <div className='product-box'>
-      <div className='left'>
-        <h3>Product Name: {name}</h3>
-        <h4>Price: {price} $</h4>
-      </div>
-      <div className='right'>
-        {/* <button className='btn'>Edit</button> */}
+      <div className='top'>
         <div>
-          <div className='img-box'>
-            {images.map((image, index) => {
-              const path =
-                'http://localhost:3001' + `/uploads/images/${name}/${image}`
-              return <ProductImage path={path} key={index} index={index} />
-            })}
-          </div>
+          <div className='title'>Product Name:</div>
+          <div className='value'>{name}</div>
         </div>
+        <div>
+          <div className='title'>Price: </div>
+          <div className='value'> {price} $</div>
+        </div>
+      </div>
+      <div className='bottom'>
+        {/* <button className='btn'>Edit</button> */}
+
+        {images.map((image, index) => {
+          const path =
+            'https://fakeerp.site' + `/uploads/images/${name}/${image}`
+          return <ProductImage path={path} key={index} index={index} />
+        })}
       </div>
     </div>
   )

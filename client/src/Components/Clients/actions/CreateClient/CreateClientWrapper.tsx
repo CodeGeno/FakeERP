@@ -59,6 +59,14 @@ const Wrapper = styled.div`
     flex-basis: 90%;
     padding: 0 1rem 0 0;
   }
+  @media screen and (max-width: 992px) {
+    .btn-section {
+      .btn {
+        font-size: 1rem;
+        padding: 0.5rem;
+      }
+    }
+  }
 `
 
 export default Wrapper

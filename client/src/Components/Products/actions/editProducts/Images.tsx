@@ -7,7 +7,8 @@ const Images: React.FC<{
   index: number
   handleNew?: (index: number) => void
   handleOld?: (productIndex: number, imageIndex: number) => void
-}> = ({ path, type, ind, index, handleNew, handleOld }) => {
+  remove: boolean
+}> = ({ path, type, ind, index, handleNew, handleOld, remove }) => {
   const removeImage = (index: number) => {
     if (type == 'new') {
       handleNew(index)
@@ -18,14 +19,16 @@ const Images: React.FC<{
   }
   return (
     <div className='mon-style img-box'>
-      <button
-        className='remove-btn'
-        onClick={() => {
-          removeImage(index)
-        }}
-      >
-        x
-      </button>
+      {remove && (
+        <button
+          className='remove-btn'
+          onClick={() => {
+            removeImage(index)
+          }}
+        >
+          x
+        </button>
+      )}
       <img className='img' src={path} />
     </div>
   )

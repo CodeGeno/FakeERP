@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, HashRouter } from 'react-router-dom'
+import React, { Suspense, lazy } from 'react'
 import Authentication from './Components/Authentication'
 import CreateRole from './Components/ManageRights/actions/createRole/CreateRole'
 import UpdateRights from './Components/ManageRights/actions/UpdateRoles/UpdateRoles'
@@ -21,6 +22,7 @@ import OrdersRoutes from './Components/Orders/OrdersRoutes'
 import CreateOrder from './Components/Orders/createOrder/CreateOrder'
 import ManageInventory from './Components/Inventory/ManageInventory'
 import OrderList from './Components/Orders/orderList/OrderList'
+
 const App: React.FC = () => {
   return (
     <BrowserRouter>
@@ -61,9 +63,3 @@ const App: React.FC = () => {
 }
 
 export default App
-// <BrowserRouter>
-//     <Navbar />
-//     <Routes>
-//       <Route path='/' element={<Authentication />} />
-//     </Routes>
-//   </BrowserRouter>

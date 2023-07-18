@@ -5,10 +5,8 @@ const ProductImage: React.FC<{ path: string; index: number }> = ({
   index,
 }) => {
   return (
-    <div className='single-image-box' key={index}>
-      <div className='img-container'>
-        <img className='img' src={path} />
-      </div>
+    <div className='image-box' key={index}>
+      <img className='img' src={path} />
     </div>
   )
 }

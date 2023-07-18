@@ -5,7 +5,7 @@ const Clients: React.FC = () => {
   return (
     <Wrapper>
       <div className='section-container'>
-        <div className='actions-section'>
+        <div className='btn-container'>
           <NavLink to='/menu/clients' className='btn'>
             New client
           </NavLink>

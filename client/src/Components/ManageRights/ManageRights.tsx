@@ -5,7 +5,7 @@ const ManageRights: React.FC = () => {
   return (
     <Wrapper>
       <div className='section-container'>
-        <div className='actions-section'>
+        <div className='btn-container'>
           <NavLink to='/menu/manageRights' className='btn'>
             Create Role
           </NavLink>

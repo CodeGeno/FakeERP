@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import Alert from './../../../Alert'
 import { useAppContext } from '../../../../context/appContext'
-import Wrapper from '../../ProductsWrapper'
+import Wrapper from './ShowProductsWrapper'
 import SingleProduct from './SingleProduct'
 
 function CreateProduct() {

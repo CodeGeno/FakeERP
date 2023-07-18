@@ -1,4 +1,5 @@
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
+export const HANDLE_MENU_PRESS = 'HANDLE_MENU_PRESS'
 export const CLEAR_ALERT = 'CLEAR_ALERT'
 export const SET_LAST_URL = 'SET_LAST_URL'
 export const SET_SLIDER = 'SET_SLIDER'

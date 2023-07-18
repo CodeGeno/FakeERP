@@ -105,9 +105,12 @@ const Wrapper = styled.div`
       }
     }
   }
-  .red {
+  .red-msg {
     color: red;
     font-size: 0.8rem;
+  }
+  .red {
+    color: red;
   }
   .total-price {
     display: flex;
@@ -149,34 +152,107 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin: 1rem 0;
-    .form-input {
-      font-size: 1.4rem;
-      height: auto;
-    }
-    .form-select {
-      font-size: 1.4rem;
-      height: auto;
-    }
+
     .btn {
       font-size: 1.4rem;
     }
     .select-button-section {
       display: flex;
-      gap: 1rem;
+      flex-direction: column;
+      gap: 2rem;
     }
   }
   .company-date {
     display: flex;
+
     gap: 1rem;
     .input-container {
       flex-basis: 50%;
+    }
+  }
+  @media screen and (max-width: 992px) {
+    select,
+    input,
+    .form-select {
+      font-size: 1rem;
+      height: 100%;
+    }
+    .company-date {
+      flex-direction: column;
+    }
+    .product-table {
+      .name,
+      .price,
+      .quantity,
+      .total {
+        font-size: 0.6rem;
+        padding: 0;
+      }
+      .title {
+        .name,
+        .price,
+        .quantity,
+        .total {
+          font-size: 0.6rem;
+          padding: 0;
+        }
+      }
+    }
+    .quantity {
+      .btn {
+        display: none;
+      }
+    }
+    .quantity .form-input {
+      padding: 0rem 0rem;
+      font-size: 0.6rem;
+      min-width: 0;
+      width: 2rem;
+      padding: 0;
+    }
+
+    .name,
+    .price,
+    .quantity,
+    .total {
+      font-size: 0.6rem;
+      padding: 0;
+    }
+    .red-msg {
+      display: none;
+    }
+    .product-table {
+      .product {
+        .name,
+        .price,
+        .quantity,
+        .total {
+          font-size: 0.6rem;
+          padding: 0.5rem 0;
+        }
+      }
+    }
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
       .form-input {
-        font-size: 1.4rem;
-        height: auto;
+        -webkit-appearance: none;
+        width: 100%;
+        padding: 1rem 0;
+        text-align: center;
       }
       .form-select {
-        font-size: 1.4rem;
-        height: auto;
+        -webkit-appearance: none;
+        padding: 1rem 0;
+        text-align: center;
+      }
+    }
+    .select-button-section {
+      .form-select {
+        -webkit-appearance: none;
+        padding: 1rem 0;
+        text-align: center;
       }
     }
   }

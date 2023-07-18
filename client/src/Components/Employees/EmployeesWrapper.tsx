@@ -3,13 +3,12 @@ import styled from 'styled-components'
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
+
+  align-items: center;
+  flex-direction: column;
   justify-content: center;
   margin: 1rem 0;
-  .product {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
+
   .section-container {
     height: 100%;
     display: flex;
@@ -19,46 +18,42 @@ const Wrapper = styled.div`
     border-radius: var(--borderRadius);
     padding: 2rem;
   }
-  .actions-section {
-    display: flex;
-    gap: 1rem;
-    margin: 1rem 0;
-  }
-  a {
-    font-size: 2rem;
-  }
-  .btn-section {
-    flex-direction: row;
-  }
-  .employees-section {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-  }
-  .employee-box-border {
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: var(--shadow-3);
-    background-color: var(--primary-50);
-    border-radius: 0.5rem;
-    margin: 0.5rem;
-  }
-  .employee-box {
-    background-color: white;
-  }
-  h4 {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  p {
-    font-size: 1rem;
-    margin: 0.5rem;
-  }
+
   a {
     font-size: 1.6rem;
+  }
+
+  .btn-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin: 0.5rem 0;
+  }
+  @media screen and (max-width: 992px) {
+    .btn-container {
+      gap: 1px;
+      text-align: center;
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      .btn {
+        flex-basis: 32%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .product-box {
+      padding: 1rem 0.5rem;
+    }
+    .section-container {
+      padding: 1rem 1rem;
+    }
+
+    a {
+      font-weight: 400;
+      font-size: 0.8rem;
+    }
   }
 `
 

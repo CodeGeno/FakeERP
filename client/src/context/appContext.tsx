@@ -5,6 +5,7 @@ import {
   CLEAR_ALERT,
   CREATE_ROLE_ERROR,
   CUSTOM_ALERT,
+  HANDLE_MENU_PRESS,
   LOGIN_USER_ERROR,
   LOGIN_USER_SUCCESS,
   LOGOUT_USER,
@@ -51,6 +52,9 @@ const AppProvider = ({ children }: AppContextProps) => {
   const handleSlider = () => {
     dispatch({ type: SET_SLIDER })
   }
+  const handleMenuPress = () => {
+    dispatch({ type: HANDLE_MENU_PRESS })
+  }
   const addUserToLocalStorage = ({
     userDetail,
     token,
@@ -79,7 +83,7 @@ const AppProvider = ({ children }: AppContextProps) => {
   }
   //Axios Setup
   const baseFetch = axios.create({
-    baseURL: 'http://38.242.212.73:3000/api/v1/',
+    baseURL: 'https://fakeerp.site/api/v1/',
   })
   baseFetch.defaults.headers.common['role'] = localStorage.getItem('role')
 
@@ -94,8 +98,6 @@ const AppProvider = ({ children }: AppContextProps) => {
           type: CUSTOM_ALERT,
           payload: { msg: error.response.data.msg, alertType: 'danger' },
         })
-
-        // You can perform any necessary actions, such as redirecting to a login page or displaying an error message
       }
       return Promise.reject(error)
     }
@@ -486,6 +488,7 @@ const AppProvider = ({ children }: AppContextProps) => {
       value={{
         ...state,
         registerUser,
+        handleMenuPress,
         loginUser,
         getRoles,
         createRole,

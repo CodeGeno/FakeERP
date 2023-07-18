@@ -5,6 +5,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   justify-content: center;
+  align-items: center;
   margin: 1rem 0;
   .section-container {
     height: 100%;
@@ -15,11 +16,7 @@ const Wrapper = styled.div`
     border-radius: var(--borderRadius);
     padding: 2rem;
   }
-  .actions-section {
-    display: flex;
-    gap: 1rem;
-    margin: 1rem 0;
-  }
+
   a {
     font-size: 2rem;
   }
@@ -44,10 +41,7 @@ const Wrapper = styled.div`
       display: flex;
       justify-content: space-between;
     }
-    .btn-container {
-      display: flex;
-      justify-content: center;
-    }
+
     .product-section {
       margin: 2rem;
 
@@ -91,6 +85,64 @@ const Wrapper = styled.div`
 
   a {
     font-size: 1.6rem;
+  }
+  a {
+    font-size: 1.6rem;
+  }
+
+  .btn-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin: 0.5rem 0;
+  }
+  @media screen and (max-width: 992px) {
+    .btn-container {
+      gap: 1px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 33%;
+      }
+    }
+    .product-box {
+      padding: 1rem 0.5rem;
+    }
+    .section-container {
+      padding: 1rem 0.5rem;
+    }
+
+    a {
+      font-weight: 400;
+      font-size: 0.8rem;
+    }
+    .singleOrder-container {
+      display: flex;
+      flex-direction: column;
+      margin: 1rem 0;
+      padding: 2rem 0.5rem;
+      border-radius: 10px;
+      width: 100%;
+      box-shadow: var(--shadow-2);
+      .company-row {
+        display: flex;
+        justify-content: space-between;
+      }
+      .status-row {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .product-section {
+        margin: 2rem 0rem;
+        font-size: 0.6rem;
+      }
+    }
   }
 `
 

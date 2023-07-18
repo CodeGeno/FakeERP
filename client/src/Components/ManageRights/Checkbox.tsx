@@ -26,7 +26,7 @@ const Checkbox: React.FC<{
   }
 
   return (
-    <div key={roleIndex}>
+    <div key={roleIndex} className='checkbox-box'>
       <div
         className='right-section-single btn'
         onClick={() => {

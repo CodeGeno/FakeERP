@@ -101,7 +101,7 @@ const updateOrder = async (req, res) => {
     newStatus == 'done'
   ) {
     if (testQuantity(products)) {
-      query = `UPDATE OrdersInfo
+      query = `UPDATE ORDERSINFO
              SET orderStatus='done'
              Where orderId=${orderId};`
 

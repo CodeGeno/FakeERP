@@ -34,7 +34,7 @@ const updateRole = async (req, res) => {
   } = req.body
   try {
     const query = `
-    UPDATE Roles set 
+    UPDATE ROLES set 
     employees=${employees ? 1 : 0},
     inventory=${inventory ? 1 : 0},
     manageProducts=${manageProducts ? 1 : 0},
@@ -62,7 +62,7 @@ const deleteRole = async (req, res) => {
 }
 const getRole = async (req, res) => {
   const query = `SELECT USERS.role,inventory,R.manageClients,R.manageRights,R.manageProducts,R.employees,R.orders from USERS
-                INNER JOIN Roles R on USERS.role = R.role
+                INNER JOIN ROLES R on USERS.role = R.role
                 WHERE email=${req.params.email}`
   const result = await QueryResult(query)
   res.status(200).json(result[0])

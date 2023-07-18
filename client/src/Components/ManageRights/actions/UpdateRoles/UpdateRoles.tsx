@@ -63,7 +63,7 @@ function UpdateRoles() {
             }}
           >
             <option>Choose role</option>
-            {roles &&
+            {roles.length > 0 &&
               roles.map((role, index) => {
                 return (
                   <option value={index} key={index}>

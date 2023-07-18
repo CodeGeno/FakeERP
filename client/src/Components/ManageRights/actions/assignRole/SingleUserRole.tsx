@@ -28,7 +28,7 @@ const SingleUserRole: React.FC<{
   return (
     <>
       {showAlert && <Alert />}
-      <Wrapper className='single-user-container' show={show}>
+      <Wrapper show={show}>
         <div className='user-container'>
           <div
             className='btn user-row'
@@ -70,7 +70,14 @@ const SingleUserRole: React.FC<{
                 >
                   Update Role
                 </button>
-                <button className='btn'>Cancel</button>
+                <button
+                  className='btn'
+                  onClick={() => {
+                    setShow(false)
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             </>
           )}

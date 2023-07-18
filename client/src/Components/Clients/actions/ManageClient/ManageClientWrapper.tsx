@@ -52,7 +52,7 @@ export const Wrapper = styled.div`
   }
 
   .moreOffice {
-    margin: 2rem 0;
+    margin: 1rem 0;
     .form-label {
       margin: 0;
     }
@@ -73,5 +73,22 @@ export const Wrapper = styled.div`
   .city {
     flex-basis: 40%;
     padding: 0 1rem 0 0;
+  }
+  @media screen and (max-width: 992px) {
+    .remove {
+      margin: 0 0 0 0.5rem;
+    }
+    .street-row,
+    .zip-row {
+      justify-content: space-between;
+    }
+
+    .btn-section {
+      .btn {
+        font-size: 1rem;
+        padding: 0.5rem;
+        margin: 0;
+      }
+    }
   }
 `

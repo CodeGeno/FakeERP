@@ -4,7 +4,7 @@ const Products: React.FC = () => {
   return (
     <Wrapper>
       <div className='section-container'>
-        <div className='actions-section'>
+        <div className='btn-container'>
           <NavLink to='/menu/products/create' className='btn'>
             Create Product
           </NavLink>
@@ -12,7 +12,7 @@ const Products: React.FC = () => {
             All Products
           </NavLink>
           <NavLink to='/menu/products/edit' className='btn'>
-            Modify product
+            Edit product
           </NavLink>
         </div>
         <Outlet />

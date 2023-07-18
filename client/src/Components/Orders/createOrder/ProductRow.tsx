@@ -47,7 +47,11 @@ const ProductRow: React.FC<{
             <div>
               <input
                 type='number'
-                className='form-input'
+                className={
+                  quantity - desiredQuantity > 0 || desiredQuantity == 0
+                    ? 'form-input'
+                    : 'red form-input'
+                }
                 min='0'
                 value={desiredQuantity}
                 onChange={(e) => handleQuantityInput(e, index)}
@@ -65,7 +69,7 @@ const ProductRow: React.FC<{
             ''
           ) : (
             <>
-              <div className='red'>not enough supply</div>
+              <div className='red-msg'>not enough supply</div>
             </>
           )}
           {desiredQuantity == 0 && (

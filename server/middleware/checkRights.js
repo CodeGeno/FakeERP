@@ -5,7 +5,7 @@ export const checkRights = (section) => {
   return async (req, res, next) => {
     const roleHeaders = jwt.decode(req.headers.role)
     const role = roleHeaders.role
-    const query = `select * from Roles where role='${role}'`
+    const query = `select * from ROLES where role='${role}'`
     const result = await QueryResult(query)
     const rights = result[0]
     if (

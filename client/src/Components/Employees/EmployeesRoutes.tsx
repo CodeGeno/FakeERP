@@ -4,7 +4,7 @@ const EmployeesRoutes: React.FC = () => {
   return (
     <Wrapper>
       <div className='section-container'>
-        <div className='actions-section'>
+        <div className='btn-container'>
           <NavLink to='/menu/employees/create' className='btn'>
             Create Employee
           </NavLink>

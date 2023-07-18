@@ -5,7 +5,7 @@ const OrdersRoutes: React.FC = () => {
   return (
     <Wrapper>
       <div className='section-container'>
-        <div className='actions-section'>
+        <div className='btn-container'>
           <NavLink to='/menu/orders/create' className='btn'>
             New Order
           </NavLink>

@@ -35,8 +35,8 @@ const SingleProduct: React.FC<{
 
   //Context
   const { updateProduct, cancelModification } = useAppContext()
-
-  const { description, images, name, path, price, id } = product
+  const [showMore, setShowMore] = useState(false)
+  const { description, images, name, path, price } = product
 
   const handleImageChange = (event) => {
     const files = event.target.files
@@ -80,16 +80,64 @@ const SingleProduct: React.FC<{
     <div className='product-box'>
       {!edit && (
         <>
-          <Alert />
-          <h4>{name}</h4>
-          <button type='button' className='btn' onClick={() => setEdit(true)}>
-            Edit
-          </button>
+          <div className='row'>
+            <div className='row-title'>Product Name :</div>
+            <div>{name}</div>
+          </div>
+          {showMore && edit == false && (
+            <>
+              <div className='row'>
+                <div className='row-title'>Price :</div>
+                <div>{price}</div>
+              </div>
+              <div className='description'>
+                <div className='row-title'>Description :</div>
+                <div>{description}</div>
+              </div>
+              {images.length > 0 && <h3>Images</h3>}
+              <div className='img-container'>
+                {images.map((image, ind) => {
+                  const path =
+                    'https://fakeerp.site' + `/uploads/${product.path}/${image}`
+                  return (
+                    <Images
+                      path={path}
+                      type='old'
+                      key={ind}
+                      index={ind}
+                      ind={index}
+                      handleOld={oldImageRemove}
+                      remove={false}
+                    />
+                  )
+                })}
+              </div>
+            </>
+          )}
+          <div className='btn-section'>
+            <button
+              className='btn'
+              onClick={() => {
+                setShowMore(!showMore)
+              }}
+            >
+              {showMore ? 'Show Less' : 'Show More'}
+            </button>
+            <button
+              type='button'
+              className='btn'
+              onClick={() => {
+                setShowMore(false)
+                setEdit(true)
+              }}
+            >
+              Edit
+            </button>
+          </div>
         </>
       )}
       {edit && (
         <>
-          <Alert />
           <InputRow
             object={product}
             handleProductChange={handleProductChange}
@@ -109,15 +157,15 @@ const SingleProduct: React.FC<{
             handleProductChange={handleProductChange}
             index={index}
             name='description'
-            placeholder='Description:'
+            placeholder='Description'
           />
           <div>
-            <h3>Images</h3>
+            {images.length > 0 && <h3>Images</h3>}
             <div className='img-container'>
               {images.map((image, ind) => {
                 const path =
-                  'http://localhost:3001' + `/uploads/${product.path}/${image}`
-                console.log(path)
+                  'https://fakeerp.site' + `/uploads/${product.path}/${image}`
+
                 return (
                   <Images
                     path={path}
@@ -126,11 +174,12 @@ const SingleProduct: React.FC<{
                     index={ind}
                     ind={index}
                     handleOld={oldImageRemove}
+                    remove={true}
                   />
                 )
               })}
             </div>
-            <h4>New Images</h4>
+            {images.length > 0 && <h3>Images</h3>}
             <div className='img-container'>
               {moreImages.map((ima, index) => {
                 return (
@@ -140,6 +189,7 @@ const SingleProduct: React.FC<{
                     index={index}
                     key={index}
                     handleNew={newImageRemove}
+                    remove={true}
                   />
                 )
               })}

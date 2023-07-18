@@ -97,14 +97,6 @@ function CreateProduct() {
           >
             Add Product
           </button>
-          <button
-            className='btn'
-            onClick={() => {
-              console.log(product)
-            }}
-          >
-            Log
-          </button>
         </div>
       </div>
     </Wrapper>

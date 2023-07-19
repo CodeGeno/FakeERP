@@ -1,6 +1,6 @@
 # FakeERP
 
-FakeERP is a fictitious enterprise resource planning (ERP) system developed using React,Typescript, NodeJS and MySQL. It is designed to be used as a learning and experimentation project for developers who want to learn more about React, NodeJS and MySQL and how to develop an ERP system.
+FakeERP is a fictitious enterprise resource planning (ERP) system developed using React,Typescript, NodeJS and MySQL. It is designed to be used as a learning and experimentation project on how to use Typescript,NodeJS and MySQL together.
 
 ## Included Features
 

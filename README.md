@@ -17,7 +17,6 @@ FakeERP is still under development, but it is already usable for a number of tas
 
 To install FakeERP, you must have NodeJS 16.14.0 or later installed. Once you have NodeJS installed, you can install FakeERP by running the following command in the client folder:
 
-npm install && npm start
-Start
+> npm install && npm start
 
 FakeERP will then be available at the address http://localhost:3000/

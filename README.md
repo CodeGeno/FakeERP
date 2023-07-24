@@ -2,7 +2,7 @@
 
 ## Please note that this project is purely educational and not intended for production use.
 
-### You can access this project at https://fakecommerce.site
+### You can access this project at https://fakeerp.site
 
 FakeERP is a fictitious enterprise resource planning (ERP) system developed using React,Typescript, NodeJS and MySQL. It is designed to be used as a learning and experimentation project on how to use Typescript,NodeJS and MySQL together.
 

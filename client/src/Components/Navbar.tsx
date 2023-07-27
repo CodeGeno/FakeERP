@@ -4,13 +4,18 @@ import Wrapper from '../styles/NavbarWrapper'
 import { useAppContext } from '../context/appContext'
 import { BiArrowToLeft, BiUserCircle } from 'react-icons/bi'
 
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 import { useEffect } from 'react'
 
 function Navbar() {
-  const { handleSlider, showSlider, userDetail, AlertMessageAndType } =
-    useAppContext()
+  const {
+    handleSlider,
+    showSlider,
+    userDetail,
+    AlertMessageAndType,
+    disconnectUser,
+  } = useAppContext()
   const navigate = useNavigate()
   const checkConnected = () => {
     if (
@@ -41,9 +46,31 @@ function Navbar() {
             <BiArrowToLeft />
           </button>
           <div className='title'>FakeERP</div>
-          <button className='btn'>
-            <BiUserCircle />
-          </button>
+          <div className='user'>
+            <button className='btn'>
+              <BiUserCircle />
+            </button>
+            <div className='bis'>
+              <ul>
+                <li>
+                  <NavLink to='/settings' className='btn'>
+                    Settings
+                  </NavLink>
+                </li>
+                <li>
+                  <button
+                    className='btn'
+                    onClick={() => {
+                      disconnectUser()
+                      navigate('/')
+                    }}
+                  >
+                    Log Out
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
         </>
       )}
     </Wrapper>

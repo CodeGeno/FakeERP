@@ -41,6 +41,7 @@ export interface defaultContextState {
   createRole?: (newRole: Role) => void
   updateRole?: (updatedRole: Role) => void
   deleteRole?: (roleToDelete: Role) => void
+  disconnectUser?: () => void
   getUsers?: () => Promise<UserRole[]>
   updateUser?: (userToUpdate: UserRole, roleToUpdate: string) => void
   createCompany?: (companyDetails: Company[]) => void

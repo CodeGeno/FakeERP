@@ -10,7 +10,10 @@ function Authentication() {
     password: string
   }
   const navigate = useNavigate()
-  const initialState: credentials = { email: '', password: '' }
+  const initialState: credentials = {
+    email: 'JohnDoe2@gmail.com',
+    password: 'john1234',
+  }
   const { registerUser, loginUser, userDetail } = useAppContext()
   const [user, setUser] = useState<credentials>(initialState)
   const [isRegistering, setIsRegistering] = useState<boolean>(false)

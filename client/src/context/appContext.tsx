@@ -76,6 +76,9 @@ const AppProvider = ({ children }: AppContextProps) => {
     dispatch({ type: LOGOUT_USER })
   }
 
+  const disconnectUser = () => {
+    removeUserFromLocalStorage()
+  }
   const clearAlert: () => void = () => {
     setTimeout(() => {
       dispatch({ type: CLEAR_ALERT })
@@ -487,6 +490,7 @@ const AppProvider = ({ children }: AppContextProps) => {
     <AppContext.Provider
       value={{
         ...state,
+        disconnectUser,
         registerUser,
         handleMenuPress,
         loginUser,

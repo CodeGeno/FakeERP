@@ -36,6 +36,12 @@ const EditProduct: React.FC = () => {
           setFilter(e.target.value)
         }}
       />
+      <div className='titles'>
+        <div>Product Name</div>
+        <div>Quantity</div>
+        <div>Price</div>
+      </div>
+
       {products.map((product, index) => {
         if (product.name.toLowerCase().includes(filter.toLowerCase())) {
           return (

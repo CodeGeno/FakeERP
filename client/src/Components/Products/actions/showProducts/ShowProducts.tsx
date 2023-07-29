@@ -33,14 +33,24 @@ function CreateProduct() {
         />
       </label>
 
-      <div className='product'>
-        {products.length > 0 &&
-          products.map((product, index) => {
-            if (product.name.toLowerCase().includes(filter.toLowerCase())) {
-              return <SingleProduct key={index} product={product} />
-            } else return
-          })}
-      </div>
+      {products.length > 0 && (
+        <>
+          <div className='product'>
+            <div className='titles'>
+              <div>Product Name</div>
+              <div>Quantity</div>
+              <div>Price</div>
+            </div>
+            {products.map((product, index) => {
+              if (product.name.toLowerCase().includes(filter.toLowerCase())) {
+                return (
+                  <SingleProduct key={index} product={product} index={index} />
+                )
+              } else return
+            })}
+          </div>
+        </>
+      )}
     </Wrapper>
   )
 }

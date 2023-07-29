@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { useAppContext } from '../../context/appContext'
 import Wrapper from './ProductsWrapper'
 import { NavLink, Outlet } from 'react-router-dom'
 const Products: React.FC = () => {

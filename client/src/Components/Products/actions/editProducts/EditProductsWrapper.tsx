@@ -60,9 +60,62 @@ const Wrapper = styled.div`
     height: 100%;
     width: 100%;
   }
-  .btn-section {
+
+  .titles {
     display: flex;
-    flex-direction: row;
+    margin: 1rem 0;
+    font-weight: 800;
+    width: 100%;
+    div {
+      flex-basis: 33%;
+      text-align: center;
+    }
+  }
+  .hidden {
+    cursor: pointer;
+  }
+  .white {
+    background-color: white !important;
+  }
+  .product-box {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    border-radius: 0%;
+    background-color: var(--primary-50);
+  }
+  .product-box .top {
+    display: flex;
+    width: 100%;
+  }
+  .product-box .top .value {
+    flex-basis: 33%;
+    text-align: center;
+  }
+  .bottom {
+    display: flex;
+    width: 100%;
+  }
+  .bottom .image-box {
+    flex-basis: 33%;
+  }
+  .bottom .image-box .img {
+    width: 100%;
+    height: 100%;
+  }
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .btn-container .btn {
+    font-size: 1rem;
+  }
+  h3 {
+    margin: 0;
+  }
+  .img-container {
+    margin: 1rem 0;
   }
   @media screen and (max-width: 992px) {
     .row {
@@ -81,11 +134,6 @@ const Wrapper = styled.div`
       justify-content: space-between;
       font-size: 1.2rem;
       font-weight: 600;
-    }
-    .btn-section {
-      .btn {
-        font-size: 1rem;
-      }
     }
   }
 `

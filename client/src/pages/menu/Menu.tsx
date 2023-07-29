@@ -19,11 +19,15 @@ const Menu = React.memo(() => {
     <Wrapper>
       {rights && (
         <div className={showSlider ? 'menu-list' : 'hide menu-list'}>
-          <ul className={showSlider ? 'list-container' : 'hide list-container'}>
+          <ul
+            className={
+              showSlider ? 'list-container slide-in' : 'hide list-container'
+            }
+          >
             {rights.manageRights !== 0 && (
               <NavLink
                 to='/menu/manageRights'
-                className='list-btn btn'
+                className='list-btn '
                 onClick={handleMenuPress}
               >
                 Manage Rights
@@ -32,7 +36,7 @@ const Menu = React.memo(() => {
             {rights.manageProducts !== 0 && (
               <NavLink
                 to='/menu/products'
-                className='list-btn btn'
+                className='list-btn'
                 onClick={handleMenuPress}
               >
                 Products
@@ -41,7 +45,7 @@ const Menu = React.memo(() => {
             {rights.manageClients !== 0 && (
               <NavLink
                 to='/menu/clients'
-                className='list-btn btn'
+                className='list-btn '
                 onClick={handleMenuPress}
               >
                 Clients
@@ -50,17 +54,16 @@ const Menu = React.memo(() => {
             {rights.employees !== 0 && (
               <NavLink
                 to='/menu/employees'
-                className='list-btn btn'
+                className='list-btn '
                 onClick={handleMenuPress}
               >
                 Employees
               </NavLink>
             )}
-
             {rights.inventory !== 0 && (
               <NavLink
                 to='/menu/inventory'
-                className='list-btn btn'
+                className='list-btn '
                 onClick={handleMenuPress}
               >
                 Inventory
@@ -69,7 +72,7 @@ const Menu = React.memo(() => {
             {rights.orders !== 0 && (
               <NavLink
                 to='/menu/orders'
-                className='list-btn btn'
+                className='list-btn'
                 onClick={handleMenuPress}
               >
                 Orders

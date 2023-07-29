@@ -31,6 +31,7 @@ import productRouter from './router/productRouter.js'
 import employeeRouter from './router/employeeRouter.js'
 import inventoryRouter from './router/inventoryRouter.js'
 import ordersRouter from './router/ordersRouter.js'
+
 export const db = mysql.createPool({
   host: 'localhost',
   user: process.env.DATABASE_USERNAME,

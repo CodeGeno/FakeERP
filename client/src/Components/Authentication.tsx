@@ -11,7 +11,7 @@ function Authentication() {
   }
   const navigate = useNavigate()
   const initialState: credentials = {
-    email: 'JohnDoe2@gmail.com',
+    email: 'JohnDoe@gmail.com',
     password: 'john1234',
   }
   const { registerUser, loginUser, userDetail } = useAppContext()

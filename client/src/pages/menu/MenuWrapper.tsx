@@ -1,53 +1,47 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
+  width: auto;
   display: flex;
-  flex-direction: column;
+  min-height: 100vh;
   .menu-list {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
+    box-shadow: var(--shadow2);
     background-color: white;
-    padding: 1rem;
-  }
-  ul {
-    margin: 0;
-  }
-  .list-container {
+    z-index: 0;
     display: flex;
-    width: 100%;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+    flex-direction: column;
+    width: 10rem;
+  }
+
+  .list-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    gap: 5px;
   }
   .list-btn {
     display: flex;
-    justify-content: center;
-    font-size: 1rem;
-    padding: 0.5rem;
-
-    flex-basis: 15%;
+    flex-direction: column;
+    padding: 0 0 10px 0;
+    color: var(--primary-500);
+    text-decoration: none;
   }
+  .list-btn:hover {
+    cursor: pointer;
+  }
+  .slide-in {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
   .hide {
-    height: 0px;
-    display: none;
+    opacity: 0;
+    transform: translateX(-100%);
   }
   @media screen and (max-width: 992px) {
-    .menu-list {
-      padding: 0 1rem 1rem;
-    }
-    .list-container {
-      flex-direction: column;
-      width: 100%;
-      gap: 10px;
-    }
-    .list-btn {
-      display: flex;
-      justify-content: center;
-      font-size: 1rem;
-      padding: 0.5rem;
-      cursor: pointer;
-      flex-basis: 16.66%;
-    }
   }
 `
 

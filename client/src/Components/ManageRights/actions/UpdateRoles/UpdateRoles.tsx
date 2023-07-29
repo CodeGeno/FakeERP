@@ -16,15 +16,12 @@ function UpdateRoles() {
   }
 
   const deletingRole = async () => {
-    try {
-      await deleteRole(selectedRole)
-    } catch (error) {
-      console.log(error)
-    }
+    deleteRole(selectedRole)
     getData()
     setSelectedRole(null)
     setRoleIndex(null)
   }
+
   useEffect(() => {
     getData()
   }, [])
@@ -54,7 +51,7 @@ function UpdateRoles() {
         <Alert />
         <div className='form-label'>Select Role:</div>
 
-        {roles ? (
+        {roles?.length > 2 ? (
           <select
             className='form-select'
             onChange={(e) => {
@@ -63,17 +60,19 @@ function UpdateRoles() {
             }}
           >
             <option>Choose role</option>
-            {roles.length > 0 &&
+            {roles?.length > 2 &&
               roles.map((role, index) => {
-                return (
-                  <option value={index} key={index}>
-                    {role.role}
-                  </option>
-                )
+                if (role.role != 'user' && role.role != 'Admin') {
+                  return (
+                    <option value={index} key={index}>
+                      {role.role}
+                    </option>
+                  )
+                }
               })}
           </select>
         ) : (
-          'Create a role to acces this section'
+          'Create a role that can be modified to access this section'
         )}
       </div>
       {selectedRole && (

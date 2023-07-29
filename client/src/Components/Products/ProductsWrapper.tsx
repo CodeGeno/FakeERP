@@ -65,6 +65,7 @@ const Wrapper = styled.div`
     gap: 10px;
     margin: 0.5rem 0;
   }
+
   @media screen and (max-width: 992px) {
     .btn-container {
       gap: 1px;

@@ -41,6 +41,7 @@ const Wrapper = styled.nav`
     display: none;
     left: 50%;
     transform: translate(-50%, 0);
+    padding: 0 1rem;
     .btn {
       font-size: 0.8rem;
       margin: 0.5rem 0;

@@ -156,4 +156,5 @@ const undoProductModification = async (req, res) => {
   let resultat = await Promise.all(promises)
   res.status(200).json(resultat)
 }
+
 export { updateProduct, undoProductModification }

@@ -486,6 +486,7 @@ const AppProvider = ({ children }: AppContextProps) => {
       clearAlert()
     }, 3000)
   }
+
   return (
     <AppContext.Provider
       value={{

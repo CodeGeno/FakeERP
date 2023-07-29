@@ -42,16 +42,22 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   const { email, password } = req.body
-
-  let salt = await bcrypt.genSalt(10)
-  let cryptedPwd = await bcrypt.hash(password, salt)
-  console.log(cryptedPwd)
-  const sqlInsert = 'INSERT INTO USERS(email,password) VALUES (?,?)'
-  db.query(sqlInsert, [email, cryptedPwd], (err, result) => {
-    console.log('result', result)
-    console.log(err)
-  })
-  res.status(StatusCodes.OK).json({ msg: 'Registration Sucesful!' })
+  const lowerCaseEmail = email.toLowerCase()
+  //Checking if user already exists
+  const query = `SELECT * FROM USERS WHERE email='${lowerCaseEmail}'`
+  let isNewAccount = await QueryResult(query)
+  if (isNewAccount.length == 0) {
+    let salt = await bcrypt.genSalt(10)
+    let cryptedPwd = await bcrypt.hash(password, salt)
+    const sqlInsert = 'INSERT INTO USERS(email,password) VALUES (?,?)'
+    db.query(sqlInsert, [lowerCaseEmail, cryptedPwd], (err, result) => {
+      console.log('result', result)
+      console.log(err)
+    })
+    res.status(StatusCodes.OK).json({ msg: 'Registration Sucesful!' })
+  } else {
+    throw new BadRequestError('User already exists !')
+  }
 }
 
 const updateUser = async (req, res) => {}

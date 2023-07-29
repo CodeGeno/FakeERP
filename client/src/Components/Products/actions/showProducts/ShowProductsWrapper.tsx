@@ -17,52 +17,48 @@ const Wrapper = styled.div`
     border-radius: var(--borderRadius);
     padding: 2rem;
   }
-
+  .titles {
+    display: flex;
+    margin: 1rem 0;
+    font-weight: 800;
+    div {
+      flex-basis: 33%;
+      text-align: center;
+    }
+  }
+  .hidden {
+    cursor: pointer;
+  }
+  .white {
+    background-color: white !important ;
+  }
   .product-box {
-    padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
-    box-shadow: var(--shadow-3);
+    margin: 0;
+    border-radius: 0%;
     background-color: var(--primary-50);
-    border-radius: 0.5rem;
-    align-items: center;
-    gap: 1rem;
-    margin: 0.5rem 0;
   }
-  .top {
+  .product-box .top {
     display: flex;
-    justify-content: space-between;
     width: 100%;
-    font-weight: 700;
-    font-size: 1.5rem;
-    text-transform: capitalize;
+  }
+  .product-box .top .value {
+    flex-basis: 33%;
+    text-align: center;
   }
   .bottom {
     display: flex;
-    flex-wrap: wrap;
+    width: 100%;
   }
-
-  .image-box {
-    flex-basis: 20%;
-    display: flex;
-    align-items: center;
-
-    justify-content: center;
-    .img {
-      border-radius: 10px;
-      overflow: hidden;
-      padding: 0.2rem;
-      width: 100%;
-      height: auto;
-    }
+  .bottom .image-box {
+    flex-basis: 33%;
+  }
+  .bottom .image-box .img {
+    width: 100%;
+    height: 100%;
   }
   @media screen and (max-width: 992px) {
-    .product-box {
-      padding: 1rem 0.5rem;
-    }
-    .section-container {
-      padding: 1rem 1rem;
-    }
   }
 `
 
